@@ -1,4 +1,4 @@
-package models;
+package domain;
 
 import policy.AccountPolicy;
 
@@ -7,9 +7,6 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
-import java.util.HashSet;
-import java.util.Set;
 
 /**
  * Created by Red on 11/15/14.
@@ -23,7 +20,7 @@ public class Account {
     @GeneratedValue
     private Long id;
 
-    private AccountPolicy.AccountRole AccountType;
+    private AccountPolicy.AccountRole accountType;
 
     @JsonIgnore
     public String password;
@@ -42,9 +39,10 @@ public class Account {
         return username;
     }
 
-    public Account(String name, String password) {
+    public Account(String name, String password, AccountPolicy.AccountRole accountType) {
         this.username = name;
         this.password = password;
+        this.accountType = accountType;
     }
 
     Account() { // jpa only
