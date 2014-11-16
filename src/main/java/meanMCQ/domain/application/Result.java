@@ -1,7 +1,7 @@
-package domain.application;
+package meanMCQ.domain.application;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import domain.account.PupilAccount;
+import meanMCQ.domain.account.PupilAccount;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -33,9 +33,12 @@ public class Result {
     public Result() {
     }
 
+    public Result(double marks) {
+        this.marks = marks;
+    }
+
     // getter methods
     public Long getId() {
         return id;
     }
-
 }

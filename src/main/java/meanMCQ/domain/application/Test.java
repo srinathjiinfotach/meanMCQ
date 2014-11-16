@@ -1,7 +1,7 @@
-package domain.application;
+package meanMCQ.domain.application;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import domain.account.TesterAccount;
+import meanMCQ.domain.account.TesterAccount;
 
 import javax.persistence.*;
 import java.util.HashSet;

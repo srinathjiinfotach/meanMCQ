@@ -1,4 +1,4 @@
-package domain.application;
+package meanMCQ.domain.application;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 

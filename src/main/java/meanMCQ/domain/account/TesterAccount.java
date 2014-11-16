@@ -1,6 +1,6 @@
-package domain.account;
+package meanMCQ.domain.account;
 
-import domain.application.Test;
+import meanMCQ.domain.application.Test;
 
 import javax.persistence.OneToMany;
 import java.util.HashSet;

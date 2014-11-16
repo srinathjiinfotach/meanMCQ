@@ -1,6 +1,6 @@
-package domain.account;
+package meanMCQ.domain.account;
 
-import domain.application.Result;
+import meanMCQ.domain.application.Result;
 
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;

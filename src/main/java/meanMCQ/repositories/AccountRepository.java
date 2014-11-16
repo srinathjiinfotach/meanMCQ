@@ -1,6 +1,6 @@
-package repositories;
+package meanMCQ.repositories;
 
-import domain.account.GeneralAccount;
+import meanMCQ.domain.account.GeneralAccount;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

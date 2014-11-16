@@ -1,4 +1,4 @@
-package repositories;
+package meanMCQ.repositories;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 

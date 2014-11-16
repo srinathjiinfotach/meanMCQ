@@ -1,4 +1,4 @@
-package domain.application;
+package meanMCQ.domain.application;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
