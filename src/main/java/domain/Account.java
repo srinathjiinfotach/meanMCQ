@@ -1,7 +1,5 @@
 package domain;
 
-import policy.AccountPolicy;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.Entity;
@@ -11,22 +9,22 @@ import javax.persistence.Id;
 /**
  * Created by Red on 11/15/14.
  * Description: User account Model
- *  *
+ * *
  */
 
 @Entity
-public class Account {
+public abstract class Account {
+    // local attributes
     @Id
     @GeneratedValue
     private Long id;
-
-    private AccountPolicy.AccountRole accountType;
 
     @JsonIgnore
     public String password;
     public String username;
 
 
+    // getter methods
     public Long getId() {
         return id;
     }
@@ -39,10 +37,10 @@ public class Account {
         return username;
     }
 
-    public Account(String name, String password, AccountPolicy.AccountRole accountType) {
+    // constructors
+    public Account(String name, String password) {
         this.username = name;
         this.password = password;
-        this.accountType = accountType;
     }
 
     Account() { // jpa only
