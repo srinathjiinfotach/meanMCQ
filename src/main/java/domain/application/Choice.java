@@ -1,4 +1,4 @@
-package domain;
+package domain.application;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -11,30 +11,33 @@ import javax.persistence.ManyToOne;
  * Created by red on 11/15/14.
  */
 @Entity
-public class Result {
+public class Choice {
     // local attributes
     @Id
     @GeneratedValue
     private Long id;
 
-    private double marks;
+    private String content;
 
     // foreign attributes
     @JsonIgnore
     @ManyToOne
-    private PupilAccount pupil;
+    private Question question;
 
-    @JsonIgnore
-    @ManyToOne
-    private Test test;
+    // constructors
+    public Choice(String content) {
+        this.content = content;
+    }
+
+    public Choice() {
+    }
 
     // getter methods
+    public String getContent() {
+        return content;
+    }
+
     public Long getId() {
         return id;
     }
-
-    // constructors
-    public Result() {
-    }
-
 }

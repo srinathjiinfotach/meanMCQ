@@ -1,4 +1,4 @@
-package domain;
+package domain.application;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -24,12 +24,12 @@ public class Questionnaire {
     @OneToMany(mappedBy = "questionnaire")
     private Set<Test> tests = new HashSet<>();
 
+    // constructors
+    public Questionnaire() {
+    }
+
     // getter methods
     public Long getId() {
         return id;
-    }
-
-    // constructors
-    public Questionnaire() {
     }
 }

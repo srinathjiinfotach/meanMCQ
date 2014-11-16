@@ -1,4 +1,4 @@
-package domain;
+package domain.application;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -27,6 +27,15 @@ public class Question {
     @ManyToOne
     private Questionnaire questionnaire;
 
+    // constructors
+    public Question(String content) {
+        this.content = content;
+        this.answerId = 0L;
+    }
+
+    public Question() {
+    }
+
     // getter methods
     public String getContent() {
         return content;
@@ -39,14 +48,5 @@ public class Question {
 
     public Long getId() {
         return id;
-    }
-
-    // constructors
-    public Question(String content) {
-        this.content = content;
-        this.answerId = 0L;
-    }
-
-    public Question() {
     }
 }

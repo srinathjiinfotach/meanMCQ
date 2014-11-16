@@ -1,4 +1,4 @@
-package domain;
+package domain.account;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -13,16 +13,24 @@ import javax.persistence.Id;
  */
 
 @Entity
-public abstract class Account {
+public abstract class GeneralAccount {
+    @JsonIgnore
+    public String password;
+    public String username;
     // local attributes
     @Id
     @GeneratedValue
     private Long id;
 
-    @JsonIgnore
-    public String password;
-    public String username;
 
+    // constructors
+    public GeneralAccount(String name, String password) {
+        this.username = name;
+        this.password = password;
+    }
+
+    GeneralAccount() { // jpa only
+    }
 
     // getter methods
     public Long getId() {
@@ -35,15 +43,6 @@ public abstract class Account {
 
     public String getUsername() {
         return username;
-    }
-
-    // constructors
-    public Account(String name, String password) {
-        this.username = name;
-        this.password = password;
-    }
-
-    Account() { // jpa only
     }
 
 }

@@ -1,6 +1,7 @@
-package domain;
+package domain.application;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import domain.account.TesterAccount;
 
 import javax.persistence.*;
 import java.util.HashSet;
@@ -28,12 +29,12 @@ public class Test {
     @OneToMany(mappedBy = "test")
     private Set<Result> results = new HashSet<>();
 
+    // constructors
+    public Test() {
+    }
+
     // getter methods
     public Long getId() {
         return id;
-    }
-
-    // constructors
-    public Test() {
     }
 }

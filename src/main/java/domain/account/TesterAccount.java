@@ -1,4 +1,6 @@
-package domain;
+package domain.account;
+
+import domain.application.Test;
 
 import javax.persistence.OneToMany;
 import java.util.HashSet;
@@ -7,7 +9,7 @@ import java.util.Set;
 /**
  * Created by red on 11/16/14.
  */
-public class TesterAccount extends Account {
+public class TesterAccount extends GeneralAccount {
     // foreign attributes
     @OneToMany(mappedBy = "tester")
     private Set<Test> tests = new HashSet<>();
