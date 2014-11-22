@@ -12,24 +12,28 @@ import java.util.Set;
  */
 @Entity
 public class Questionnaire {
-    // local attributes
     @Id
     @GeneratedValue
     private Long id;
 
-    // foreign attributes
     @OneToMany(mappedBy = "questionnaire")
     private Set<Choice> questions = new HashSet<>();
 
     @OneToMany(mappedBy = "questionnaire")
     private Set<Test> tests = new HashSet<>();
 
-    // constructors
     public Questionnaire() {
     }
 
-    // getter methods
+    public Questionnaire(Set<Choice> questions) {
+        this.questions = questions;
+    }
+
     public Long getId() {
         return id;
+    }
+
+    public Set<Choice> getQuestions() {
+        return questions;
     }
 }

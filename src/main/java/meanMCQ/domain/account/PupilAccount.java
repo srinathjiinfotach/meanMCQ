@@ -12,11 +12,9 @@ import java.util.Set;
  */
 @Entity
 public class PupilAccount extends GeneralAccount {
-    // foreign attributes
     @OneToMany(mappedBy = "pupil")
     private Set<Result> results = new HashSet<>();
 
-    // constructors
     public PupilAccount() {
     }
 
@@ -24,7 +22,6 @@ public class PupilAccount extends GeneralAccount {
         super(name, password);
     }
 
-    // getter methods
     public Set<Result> getResults() {
         return results;
     }

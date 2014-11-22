@@ -11,7 +11,6 @@ import java.util.Set;
  */
 @Entity
 public class Question {
-    // local attributes
     @Id
     @GeneratedValue
     private Long id;
@@ -19,7 +18,6 @@ public class Question {
     private String content;
     private Long answerId;
 
-    // foreign attributes
     @OneToMany(mappedBy = "question")
     private Set<Choice> choices = new HashSet<>();
 
@@ -27,7 +25,6 @@ public class Question {
     @ManyToOne
     private Questionnaire questionnaire;
 
-    // constructors
     public Question(String content) {
         this.content = content;
         this.answerId = 0L;
@@ -36,14 +33,24 @@ public class Question {
     public Question() {
     }
 
-    // getter methods
     public String getContent() {
         return content;
     }
 
-    //setter methods
+    public Long getAnswerId() {
+        return answerId;
+    }
+
     public void setAnswerId(Long answerId) {
         this.answerId = answerId;
+    }
+
+    public Set<Choice> getChoices() {
+        return choices;
+    }
+
+    public void setChoices(Set<Choice> choices) {
+        this.choices = choices;
     }
 
     public Long getId() {

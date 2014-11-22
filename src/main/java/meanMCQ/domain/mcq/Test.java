@@ -13,7 +13,6 @@ import java.util.Set;
  */
 @Entity
 public class Test {
-    // local attributes
     @Id
     @GeneratedValue
     private Long id;
@@ -22,7 +21,6 @@ public class Test {
     private int duration;       // in minutes
     private double totalMarks;
 
-    // foreign attributes
     @JsonIgnore
     @ManyToOne
     private Questionnaire questionnaire;
@@ -34,7 +32,6 @@ public class Test {
     @OneToMany(mappedBy = "test")
     private Set<Result> results = new HashSet<>();
 
-    // constructors
     public Test() {
     }
 
@@ -46,12 +43,32 @@ public class Test {
         this.tester = tester;
     }
 
-    // getter methods
     public Long getId() {
         return id;
     }
 
     public Set<Result> getResults() {
         return results;
+    }
+
+    public void setResults(Set<Result> results) {
+        this.results = results;
+    }
+
+    public Questionnaire getQuestionnaire() {
+        return questionnaire;
+    }
+
+    public double getTotalMarks() {
+        return totalMarks;
+    }
+
+    public int getDuration() {
+
+        return duration;
+    }
+
+    public Date getSchedule() {
+        return schedule;
     }
 }

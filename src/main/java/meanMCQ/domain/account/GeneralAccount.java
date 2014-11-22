@@ -14,7 +14,6 @@ import javax.persistence.Id;
 
 @Entity
 public abstract class GeneralAccount {
-    // local attributes
     @JsonIgnore
     public String password;
     public String username;
@@ -22,17 +21,14 @@ public abstract class GeneralAccount {
     @GeneratedValue
     private Long id;
 
-
-    // constructors
     public GeneralAccount(String name, String password) {
         this.username = name;
         this.password = password;
     }
 
-    GeneralAccount() { // jpa only
+    public GeneralAccount() {
     }
 
-    // getter methods
     public Long getId() {
         return id;
     }

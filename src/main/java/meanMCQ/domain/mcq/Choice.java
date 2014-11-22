@@ -12,31 +12,26 @@ import javax.persistence.ManyToOne;
  */
 @Entity
 public class Choice {
-    // local attributes
     @Id
     @GeneratedValue
     private Long id;
 
     private String content;
 
-    // foreign attributes
     @JsonIgnore
     @ManyToOne
     private Question question;
 
-    // constructors
+    public Choice() {
+    }
+
     public Choice(String content) {
         this.content = content;
     }
 
-    public Choice() {
-    }
-
-    // getter methods
     public String getContent() {
         return content;
     }
-
     public Long getId() {
         return id;
     }

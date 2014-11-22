@@ -13,14 +13,12 @@ import javax.persistence.ManyToOne;
  */
 @Entity
 public class Result {
-    // local attributes
     @Id
     @GeneratedValue
     private Long id;
 
     private double marks;
 
-    // foreign attributes
     @JsonIgnore
     @ManyToOne
     private PupilAccount pupil;
@@ -29,17 +27,29 @@ public class Result {
     @ManyToOne
     private Test test;
 
-    // constructors
     public Result() {
     }
 
-    public Result(double marks, PupilAccount pupil) {
+    public Result(double marks, PupilAccount pupil, Test test) {
         this.marks = marks;
         this.pupil = pupil;
+        this.test = test;
     }
 
-    // getter methods
     public Long getId() {
         return id;
     }
+
+    public double getMarks() {
+        return marks;
+    }
+
+    public PupilAccount getPupil() {
+        return pupil;
+    }
+
+    public Test getTest() {
+        return test;
+    }
+
 }
