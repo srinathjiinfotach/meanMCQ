@@ -14,10 +14,10 @@ import javax.persistence.Id;
 
 @Entity
 public abstract class GeneralAccount {
+    // local attributes
     @JsonIgnore
     public String password;
     public String username;
-    // local attributes
     @Id
     @GeneratedValue
     private Long id;

@@ -1,6 +1,7 @@
-package meanMCQ.domain.application;
+package meanMCQ.domain.mcq;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import meanMCQ.domain.account.PupilAccount;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -11,32 +12,33 @@ import javax.persistence.ManyToOne;
  * Created by red on 11/15/14.
  */
 @Entity
-public class Choice {
+public class Result {
     // local attributes
     @Id
     @GeneratedValue
     private Long id;
 
-    private String content;
+    private double marks;
 
     // foreign attributes
     @JsonIgnore
     @ManyToOne
-    private Question question;
+    private PupilAccount pupil;
+
+    @JsonIgnore
+    @ManyToOne
+    private Test test;
 
     // constructors
-    public Choice(String content) {
-        this.content = content;
+    public Result() {
     }
 
-    public Choice() {
+    public Result(double marks, PupilAccount pupil) {
+        this.marks = marks;
+        this.pupil = pupil;
     }
 
     // getter methods
-    public String getContent() {
-        return content;
-    }
-
     public Long getId() {
         return id;
     }

@@ -1,6 +1,6 @@
 package meanMCQ.domain.account;
 
-import meanMCQ.domain.application.Result;
+import meanMCQ.domain.mcq.Result;
 
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
@@ -22,5 +22,10 @@ public class PupilAccount extends GeneralAccount {
 
     public PupilAccount(String name, String password) {
         super(name, password);
+    }
+
+    // getter methods
+    public Set<Result> getResults() {
+        return results;
     }
 }
