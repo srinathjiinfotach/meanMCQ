@@ -17,6 +17,7 @@ public class Choice {
     private Long id;
 
     private String content;
+    private boolean answer;
 
     @JsonIgnore
     @ManyToOne
@@ -25,13 +26,16 @@ public class Choice {
     public Choice() {
     }
 
-    public Choice(String content) {
+    public Choice(String content, boolean answer, Question question) {
         this.content = content;
+        this.answer = answer;
+        this.question = question;
     }
 
     public String getContent() {
         return content;
     }
+
     public Long getId() {
         return id;
     }

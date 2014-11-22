@@ -1,7 +1,7 @@
 package meanMCQ.domain.mcq;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import meanMCQ.domain.account.PupilAccount;
+import meanMCQ.domain.account.Account;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -21,7 +21,7 @@ public class Result {
 
     @JsonIgnore
     @ManyToOne
-    private PupilAccount pupil;
+    private Account account;
 
     @JsonIgnore
     @ManyToOne
@@ -30,9 +30,9 @@ public class Result {
     public Result() {
     }
 
-    public Result(double marks, PupilAccount pupil, Test test) {
+    public Result(double marks, Account account, Test test) {
         this.marks = marks;
-        this.pupil = pupil;
+        this.account = account;
         this.test = test;
     }
 
@@ -44,8 +44,8 @@ public class Result {
         return marks;
     }
 
-    public PupilAccount getPupil() {
-        return pupil;
+    public Account getAccount() {
+        return account;
     }
 
     public Test getTest() {

@@ -16,7 +16,6 @@ public class Question {
     private Long id;
 
     private String content;
-    private Long answerId;
 
     @OneToMany(mappedBy = "question")
     private Set<Choice> choices = new HashSet<>();
@@ -27,7 +26,6 @@ public class Question {
 
     public Question(String content) {
         this.content = content;
-        this.answerId = 0L;
     }
 
     public Question() {
@@ -35,14 +33,6 @@ public class Question {
 
     public String getContent() {
         return content;
-    }
-
-    public Long getAnswerId() {
-        return answerId;
-    }
-
-    public void setAnswerId(Long answerId) {
-        this.answerId = answerId;
     }
 
     public Set<Choice> getChoices() {

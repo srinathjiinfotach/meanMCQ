@@ -17,15 +17,12 @@ public class Questionnaire {
     private Long id;
 
     @OneToMany(mappedBy = "questionnaire")
-    private Set<Choice> questions = new HashSet<>();
-
-    @OneToMany(mappedBy = "questionnaire")
-    private Set<Test> tests = new HashSet<>();
+    private Set<Question> questions = new HashSet<>();
 
     public Questionnaire() {
     }
 
-    public Questionnaire(Set<Choice> questions) {
+    public Questionnaire(Set<Question> questions) {
         this.questions = questions;
     }
 
@@ -33,7 +30,7 @@ public class Questionnaire {
         return id;
     }
 
-    public Set<Choice> getQuestions() {
+    public Set<Question> getQuestions() {
         return questions;
     }
 }

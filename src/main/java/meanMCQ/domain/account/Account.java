@@ -13,7 +13,7 @@ import javax.persistence.Id;
  */
 
 @Entity
-public abstract class GeneralAccount {
+public class Account {
     @JsonIgnore
     public String password;
     public String username;
@@ -21,12 +21,12 @@ public abstract class GeneralAccount {
     @GeneratedValue
     private Long id;
 
-    public GeneralAccount(String name, String password) {
+    public Account(String name, String password) {
         this.username = name;
         this.password = password;
     }
 
-    public GeneralAccount() {
+    public Account() {
     }
 
     public Long getId() {

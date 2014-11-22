@@ -1,11 +1,10 @@
 package meanMCQ.domain.mcq;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import meanMCQ.domain.account.TesterAccount;
+import meanMCQ.domain.account.Account;
 
 import javax.persistence.*;
 import java.util.Date;
-import java.util.HashSet;
 import java.util.Set;
 
 /**
@@ -19,7 +18,6 @@ public class Test {
 
     private Date schedule;
     private int duration;       // in minutes
-    private double totalMarks;
 
     @JsonIgnore
     @ManyToOne
@@ -27,48 +25,39 @@ public class Test {
 
     @JsonIgnore
     @ManyToOne
-    private TesterAccount tester;
+    private Account account;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "test")
-    private Set<Result> results = new HashSet<>();
+    private Set<Answer> answers;
 
     public Test() {
     }
 
-    public Test(Date schedule, int duration, double totalMarks, Questionnaire questionnaire, TesterAccount tester) {
+    public Test(Date schedule, int duration, Questionnaire questionnaire, Account account) {
         this.schedule = schedule;
         this.duration = duration;
-        this.totalMarks = totalMarks;
         this.questionnaire = questionnaire;
-        this.tester = tester;
+        this.account = account;
     }
 
     public Long getId() {
         return id;
     }
 
-    public Set<Result> getResults() {
-        return results;
-    }
-
-    public void setResults(Set<Result> results) {
-        this.results = results;
-    }
-
     public Questionnaire getQuestionnaire() {
         return questionnaire;
     }
 
-    public double getTotalMarks() {
-        return totalMarks;
-    }
-
     public int getDuration() {
-
         return duration;
     }
 
     public Date getSchedule() {
         return schedule;
+    }
+
+    public Set<Answer> getAnswers() {
+        return answers;
     }
 }
