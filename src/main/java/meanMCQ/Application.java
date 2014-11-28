@@ -3,12 +3,14 @@ package meanMCQ;
 import meanMCQ.domain.mcq.Choice;
 import meanMCQ.domain.mcq.Question;
 import meanMCQ.repositories.QuestionRepository;
+
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
 
 import java.util.Arrays;
 import java.util.HashSet;
@@ -17,6 +19,7 @@ import java.util.Set;
 /**
  * Created by red on 11/28/14.
  */
+@PropertySource("classpath:application.properties")
 @Configuration
 @ComponentScan
 @EnableAutoConfiguration
