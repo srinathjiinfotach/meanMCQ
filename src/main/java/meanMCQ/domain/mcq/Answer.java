@@ -25,7 +25,7 @@ public class Answer {
     private Choice choice;
     @JsonIgnore
     @ManyToOne
-    private Test test;
+    private McqTest mcqTest;
     @JsonIgnore
     @ManyToOne
     private Account account;

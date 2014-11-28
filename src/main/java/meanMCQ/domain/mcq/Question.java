@@ -24,7 +24,8 @@ public class Question {
     @ManyToOne
     private Questionnaire questionnaire;
 
-    public Question(String content) {
+    public Question(String content, Set<Choice> choices) {
+        this.choices = choices;
         this.content = content;
     }
 

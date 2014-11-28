@@ -11,7 +11,7 @@ import java.util.Set;
  * Created by red on 11/15/14.
  */
 @Entity
-public class Test {
+public class McqTest {
     @Id
     @GeneratedValue
     private Long id;
@@ -28,13 +28,13 @@ public class Test {
     private Account account;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "test")
+    @OneToMany(mappedBy = "mcqTest")
     private Set<Answer> answers;
 
-    public Test() {
+    public McqTest() {
     }
 
-    public Test(Date schedule, int duration, Questionnaire questionnaire, Account account) {
+    public McqTest(Date schedule, int duration, Questionnaire questionnaire, Account account) {
         this.schedule = schedule;
         this.duration = duration;
         this.questionnaire = questionnaire;

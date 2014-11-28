@@ -21,9 +21,12 @@ public class Account {
     @GeneratedValue
     private Long id;
 
-    public Account(String name, String password) {
-        this.username = name;
+    private Role.UserRole accountType;
+
+    public Account(String password, String username, Role.UserRole accountType) {
         this.password = password;
+        this.username = username;
+        this.accountType = accountType;
     }
 
     public Account() {
@@ -41,4 +44,7 @@ public class Account {
         return username;
     }
 
+    public Role.UserRole getAccountType() {
+        return accountType;
+    }
 }

@@ -12,7 +12,7 @@ import javax.persistence.ManyToOne;
  * Created by red on 11/15/14.
  */
 @Entity
-public class Result {
+public class McqResult {
     @Id
     @GeneratedValue
     private Long id;
@@ -25,15 +25,15 @@ public class Result {
 
     @JsonIgnore
     @ManyToOne
-    private Test test;
+    private McqTest mcqTest;
 
-    public Result() {
+    public McqResult() {
     }
 
-    public Result(double marks, Account account, Test test) {
+    public McqResult(double marks, Account account, McqTest mcqTest) {
         this.marks = marks;
         this.account = account;
-        this.test = test;
+        this.mcqTest = mcqTest;
     }
 
     public Long getId() {
@@ -48,8 +48,8 @@ public class Result {
         return account;
     }
 
-    public Test getTest() {
-        return test;
+    public McqTest getMcqTest() {
+        return mcqTest;
     }
 
 }

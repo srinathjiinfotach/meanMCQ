@@ -17,6 +17,7 @@ public class Choice {
     private Long id;
 
     private String content;
+    @JsonIgnore
     private boolean answer;
 
     @JsonIgnore
@@ -26,10 +27,13 @@ public class Choice {
     public Choice() {
     }
 
-    public Choice(String content, boolean answer, Question question) {
+    public Choice(String content, boolean answer) {
         this.content = content;
         this.answer = answer;
-        this.question = question;
+    }
+
+    public boolean isAnswer() {
+        return answer;
     }
 
     public String getContent() {
