@@ -3,6 +3,7 @@ package meanMCQ.domain;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
+import javax.persistence.Entity;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -18,8 +19,8 @@ public class Question {
 
 	private String content;
 
-	@OneToMany(mappedBy = "question")
-	private Set<Choice> choices = new HashSet<>();
+    @OneToMany(mappedBy = "question", cascade = CascadeType.ALL)
+    private Set<Choice> choices = new HashSet<Choice>(0);
 
 	@JsonIgnore
 	@ManyToOne
@@ -28,11 +29,11 @@ public class Question {
 	public Question() {
 	}
 
-	public Question(String content) {
-		this.content = content;
-	}
+    public Question(String content) {
+        this.content = content;
+    }
 
-	public String getContent() {
+    public String getContent() {
 		return content;
 	}
 

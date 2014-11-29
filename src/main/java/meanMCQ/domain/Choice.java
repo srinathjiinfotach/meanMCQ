@@ -27,9 +27,8 @@ public class Choice {
 	public Choice() {
     }
 
-    public Choice(String content, Question question, boolean answer) {
+    public Choice(String content, boolean answer) {
         this.content = content;
-        this.question = question;
         this.answer = answer;
     }
 

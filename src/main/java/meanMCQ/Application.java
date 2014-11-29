@@ -32,13 +32,13 @@ public class Application {
         return (evt) -> {
             for (int i = 1; i <= 10; i++) {
                 Question q = questionRepository.save(new Question("This is question " + i + "?"));
-                Choice c1 = new Choice("Choice1", q, false);
-                Choice c2 = new Choice("Choice2", q, false);
-                Choice c3 = new Choice("Choice3", q, true);
-                Choice c4 = new Choice("Choice4", q, false);
-                Set<Choice> choices = new HashSet<>(Arrays.asList(c1, c2, c3, c4));
+                Set<Choice> choices = new HashSet<Choice>(4);
+                choices.add(new Choice("Choice1", false));
+                choices.add(new Choice("Choice2", false));
+                choices.add(new Choice("Choice3", true));
+                choices.add(new Choice("Choice4", false));
+                choices.forEach(c -> c.setQuestion(q));
                 choiceRepository.save(choices);
-
             }
 
         };
