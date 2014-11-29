@@ -2,9 +2,7 @@ package meanMCQ.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 /**
  * Created by Red on 11/15/14.
@@ -14,14 +12,15 @@ import javax.persistence.Id;
 
 @Entity
 public class Account {
-    @JsonIgnore
     public String username;
+    @JsonIgnore
     public String password;
 
     @Id
     @GeneratedValue
     private Long id;
 
+    @Enumerated(EnumType.STRING)
     public AccountRole accountRole;
 
     public Account(String username, String password, AccountRole accountRole) {

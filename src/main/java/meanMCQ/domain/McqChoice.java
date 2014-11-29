@@ -17,7 +17,7 @@ public class McqChoice {
     private Long id;
 
     private String content;
-    @JsonIgnore
+    //    @JsonIgnore
     private boolean answer;
 
     @JsonIgnore

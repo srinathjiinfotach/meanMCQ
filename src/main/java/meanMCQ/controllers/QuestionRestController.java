@@ -3,16 +3,15 @@ package meanMCQ.controllers;
 import meanMCQ.domain.McqQuestion;
 import meanMCQ.service.QuestionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.hateoas.Resources;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import java.util.Collection;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Created by red on 11/25/14.
@@ -23,12 +22,17 @@ class QuestionRestController {
     private final QuestionRepository questionRepository;
 
     @RequestMapping(method = RequestMethod.POST)
-    ResponseEntity<?> create(@RequestBody McqQuestion input) {
-        McqQuestion q = new McqQuestion(input.content);
-        input.mcqChoices.forEach(c -> c.setMcqQuestion(q));
+    ResponseEntity<?> create(@RequestBody McqQuestion mcqQuestion) {
+        HttpHeaders httpHeaders = new HttpHeaders();
+
+        if (mcqQuestion.content == null) {
+            return new ResponseEntity<>(null, httpHeaders, HttpStatus.BAD_REQUEST);
+        }
+        McqQuestion q = new McqQuestion(mcqQuestion.content);
+        q.setMcqChoices(mcqQuestion.mcqChoices);
+        q.mcqChoices.forEach(c -> c.setMcqQuestion(q));
         questionRepository.save(q);
 
-        HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.setLocation(ServletUriComponentsBuilder
                 .fromCurrentRequest().path("/{id}")
                 .buildAndExpand(q.getId()).toUri());
@@ -37,14 +41,22 @@ class QuestionRestController {
     }
 
     @RequestMapping(method = RequestMethod.GET)
-    Collection<McqQuestion> getQuestions(){
-        return this.questionRepository.findAll();
+    Resources<QuestionResource> getQuestions() {
+        List<QuestionResource> questionResourceList = questionRepository.findAll()
+                .stream()
+                .map(QuestionResource::new)
+                .collect(Collectors.toList());
+        return new Resources<QuestionResource>(questionResourceList);
+    }
+
+    @RequestMapping(method = RequestMethod.GET, value = "/{id}")
+    QuestionResource getQuestion(@PathVariable Long id) {
+        return new QuestionResource(this.questionRepository.findOne(id));
     }
 
 
     @Autowired
     public QuestionRestController(QuestionRepository questionRepository) {
         this.questionRepository = questionRepository;
-
     }
 }
