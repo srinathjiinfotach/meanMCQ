@@ -1,6 +1,7 @@
-package meanMCQ.repositories;
+package meanMCQ.service;
 
-import meanMCQ.domain.mcq.McqTest;
+import meanMCQ.domain.McqTest;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 
 /**

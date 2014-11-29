@@ -6,3 +6,7 @@
 # Maven
 log/
 target/
+
+.project
+.classpath
+.settings/

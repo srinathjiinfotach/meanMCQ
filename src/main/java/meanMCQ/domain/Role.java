@@ -1,4 +1,4 @@
-package meanMCQ.domain.account;
+package meanMCQ.domain;
 
 /**
  * Created by red on 11/22/14.

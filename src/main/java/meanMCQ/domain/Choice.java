@@ -1,4 +1,4 @@
-package meanMCQ.domain.mcq;
+package meanMCQ.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -24,11 +24,12 @@ public class Choice {
     @ManyToOne
     private Question question;
 
-    public Choice() {
+	public Choice() {
     }
 
-    public Choice(String content, boolean answer) {
+    public Choice(String content, Question question, boolean answer) {
         this.content = content;
+        this.question = question;
         this.answer = answer;
     }
 
@@ -43,4 +44,9 @@ public class Choice {
     public Long getId() {
         return id;
     }
+
+	public void setQuestion(Question question) {
+		this.question = question;
+	}
+    
 }

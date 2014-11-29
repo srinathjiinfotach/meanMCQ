@@ -1,7 +1,6 @@
-package meanMCQ.domain.mcq;
+package meanMCQ.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import meanMCQ.domain.account.Account;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;

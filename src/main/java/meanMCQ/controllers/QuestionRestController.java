@@ -1,7 +1,8 @@
 package meanMCQ.controllers;
 
-import meanMCQ.domain.mcq.Question;
-import meanMCQ.repositories.QuestionRepository;
+import meanMCQ.domain.Question;
+import meanMCQ.service.QuestionRepository;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -24,13 +25,14 @@ class QuestionRestController {
 
     @RequestMapping(method = RequestMethod.POST)
     ResponseEntity<?> create(@RequestBody Question input) {
-        Question question = questionRepository.save(
-                new Question(input.getContent(), input.getChoices()));
+        Question q = new Question(input.getContent());
+        q.setChoices(input.getChoices());
+        q = questionRepository.save(q);
 
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.setLocation(ServletUriComponentsBuilder
                 .fromCurrentRequest().path("/{id}")
-                .buildAndExpand(question.getId()).toUri());
+                .buildAndExpand(q.getId()).toUri());
 
         return new ResponseEntity<>(null, httpHeaders, HttpStatus.CREATED);
     }
