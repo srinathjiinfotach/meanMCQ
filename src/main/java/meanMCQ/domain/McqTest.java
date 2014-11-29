@@ -3,7 +3,6 @@ package meanMCQ.domain;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
-
 import java.util.Date;
 import java.util.Set;
 
@@ -21,33 +20,22 @@ public class McqTest {
 
 	@JsonIgnore
 	@ManyToOne
-	private Questionnaire questionnaire;
-
-	@JsonIgnore
-	@ManyToOne
 	private Account account;
 
-	@JsonIgnore
-	@OneToMany(mappedBy = "mcqTest")
-	private Set<Answer> answers;
+    @OneToMany
+    private Set<McqQuestion> mcqQuestions;
 
 	public McqTest() {
 	}
 
-	public McqTest(Date schedule, int duration, Questionnaire questionnaire,
-			Account account) {
+	public McqTest(Date schedule, int duration,	Account account) {
 		this.schedule = schedule;
 		this.duration = duration;
-		this.questionnaire = questionnaire;
 		this.account = account;
 	}
 
 	public Long getId() {
 		return id;
-	}
-
-	public Questionnaire getQuestionnaire() {
-		return questionnaire;
 	}
 
 	public int getDuration() {
@@ -58,7 +46,5 @@ public class McqTest {
 		return schedule;
 	}
 
-	public Set<Answer> getAnswers() {
-		return answers;
-	}
+
 }

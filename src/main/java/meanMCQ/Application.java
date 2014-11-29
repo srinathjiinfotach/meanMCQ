@@ -1,8 +1,8 @@
 package meanMCQ;
 
-import meanMCQ.domain.Choice;
-import meanMCQ.domain.Question;
-import meanMCQ.service.ChoiceRepository;
+import meanMCQ.domain.McqChoice;
+import meanMCQ.domain.McqQuestion;
+import meanMCQ.service.AccountRepository;
 import meanMCQ.service.QuestionRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -11,7 +11,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
-import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -27,18 +26,19 @@ public class Application {
     }
 
     @Bean
-    CommandLineRunner init(QuestionRepository questionRepository, ChoiceRepository choiceRepository) {
+    CommandLineRunner init(QuestionRepository questionRepository, AccountRepository accountRepository) {
 
         return (evt) -> {
             for (int i = 1; i <= 10; i++) {
-                Question q = questionRepository.save(new Question("This is question " + i + "?"));
-                Set<Choice> choices = new HashSet<Choice>(4);
-                choices.add(new Choice("Choice1", false));
-                choices.add(new Choice("Choice2", false));
-                choices.add(new Choice("Choice3", true));
-                choices.add(new Choice("Choice4", false));
-                choices.forEach(c -> c.setQuestion(q));
-                choiceRepository.save(choices);
+                McqQuestion q = new McqQuestion("This is question " + i + "?");
+                Set<McqChoice> mcqChoices = new HashSet<McqChoice>(4);
+                mcqChoices.add(new McqChoice("Choice1", false));
+                mcqChoices.add(new McqChoice("Choice2", false));
+                mcqChoices.add(new McqChoice("Choice3", true));
+                mcqChoices.add(new McqChoice("Choice4", false));
+                q.setMcqChoices(mcqChoices);
+                mcqChoices.forEach(c -> c.setMcqQuestion(q));
+                questionRepository.save(q);
             }
 
         };

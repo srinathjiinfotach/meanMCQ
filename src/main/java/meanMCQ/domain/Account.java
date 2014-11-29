@@ -15,18 +15,19 @@ import javax.persistence.Id;
 @Entity
 public class Account {
     @JsonIgnore
-    public String password;
     public String username;
+    public String password;
+
     @Id
     @GeneratedValue
     private Long id;
 
-    private Role.UserRole accountType;
+    public AccountRole accountRole;
 
-    public Account(String password, String username, Role.UserRole accountType) {
-        this.password = password;
+    public Account(String username, String password, AccountRole accountRole) {
         this.username = username;
-        this.accountType = accountType;
+        this.password = password;
+        this.accountRole = accountRole;
     }
 
     public Account() {
@@ -44,7 +45,7 @@ public class Account {
         return username;
     }
 
-    public Role.UserRole getAccountType() {
-        return accountType;
+    public AccountRole getAccountRole() {
+        return accountRole;
     }
 }
