@@ -1,8 +1,11 @@
 package meanMCQ.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.hibernate.validator.constraints.NotEmpty;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 
 /**
  * Created by Red on 11/15/14.
@@ -12,21 +15,19 @@ import javax.persistence.*;
 
 @Entity
 public class Account {
+    @NotEmpty
     public String username;
     @JsonIgnore
+    @NotEmpty
     public String password;
 
     @Id
     @GeneratedValue
     private Long id;
 
-    @Enumerated(EnumType.STRING)
-    public AccountRole accountRole;
-
-    public Account(String username, String password, AccountRole accountRole) {
+    public Account(String username, String password) {
         this.username = username;
         this.password = password;
-        this.accountRole = accountRole;
     }
 
     public Account() {
@@ -42,9 +43,5 @@ public class Account {
 
     public String getUsername() {
         return username;
-    }
-
-    public AccountRole getAccountRole() {
-        return accountRole;
     }
 }

@@ -1,6 +1,6 @@
 package meanMCQ.Controllers;
 
-import meanMCQ.Application;
+import meanMCQ.App;
 import meanMCQ.domain.McqChoice;
 import meanMCQ.domain.McqQuestion;
 import meanMCQ.service.QuestionRepository;
@@ -31,7 +31,7 @@ import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppC
  * Created by red on 11/29/14.
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@SpringApplicationConfiguration(classes = Application.class)
+@SpringApplicationConfiguration(classes = App.class)
 @WebAppConfiguration
 public class QuestionRestControllerTest {
     private MediaType contentType = new MediaType(MediaType.APPLICATION_JSON.getType(),
