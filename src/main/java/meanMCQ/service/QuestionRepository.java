@@ -1,7 +1,6 @@
 package meanMCQ.service;
 
 import meanMCQ.domain.McqQuestion;
-
 import org.springframework.data.jpa.repository.JpaRepository;
 
 /**
