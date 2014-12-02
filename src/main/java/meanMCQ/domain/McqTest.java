@@ -1,8 +1,9 @@
 package meanMCQ.domain;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import java.util.Date;
 import java.util.Set;
 
@@ -15,23 +16,18 @@ public class McqTest {
     @GeneratedValue
     private Long id;
 
-    private Date schedule;
-    private int duration; // in minutes
-
-    @JsonIgnore
-    @ManyToOne
-    private Account account;
+    public Date schedule;
+    public int duration; // in minutes
 
     @OneToMany
-    private Set<Question> questions;
+    public Set<Question> questions;
 
     public McqTest() {
     }
 
-    public McqTest(Date schedule, int duration, Account account) {
+    public McqTest(Date schedule, int duration) {
         this.schedule = schedule;
         this.duration = duration;
-        this.account = account;
     }
 
     public Long getId() {
@@ -46,5 +42,11 @@ public class McqTest {
         return schedule;
     }
 
+    public Set<Question> getQuestions() {
+        return questions;
+    }
 
+    public void setQuestions(Set<Question> questions) {
+        this.questions = questions;
+    }
 }

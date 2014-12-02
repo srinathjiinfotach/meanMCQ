@@ -1,5 +1,6 @@
 package meanMCQ.security;
 
+import meanMCQ.domain.AccountRole;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -44,7 +45,11 @@ public class OAuth2Configuration extends AuthorizationServerConfigurerAdapter {
             http
                     .authorizeRequests()
                     .antMatchers("/questions/*")
-                    .hasAuthority("TESTER");
+                    .hasAuthority(AccountRole.TESTER.toString())
+                    .and()
+                    .authorizeRequests()
+                    .antMatchers("/mcqtests/*")
+                    .hasAnyAuthority(AccountRole.TESTER.toString(), AccountRole.PUPIL.toString());
             // @formatter:on
         }
 
@@ -74,7 +79,7 @@ public class OAuth2Configuration extends AuthorizationServerConfigurerAdapter {
 
         clients.inMemory().withClient(applicationName)
                 .authorizedGrantTypes("password", "authorization_code", "refresh_token")
-                .authorities("ROLE_USER")
+                .authorities("TESTER", "PUPIL")
                 .scopes("read", "write")
                 .resourceIds(applicationName)
                 .secret("123456");

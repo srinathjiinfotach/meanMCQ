@@ -29,7 +29,7 @@ public class SecurityConfiguration extends GlobalAuthenticationConfigurerAdapter
         return (username) -> accountRepository
                 .findByUsername(username)
                 .map(a -> new User(a.username, a.password, true, true, true, true,
-                        AuthorityUtils.createAuthorityList(a.getRole().toString(), "write")))
+                        AuthorityUtils.createAuthorityList(a.getRole().toString(), "read write")))
                 .orElseThrow(
                         () -> new UserNotFoundException(username)
                 );

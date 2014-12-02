@@ -25,9 +25,6 @@ class QuestionRestController {
     ResponseEntity<?> create(@RequestBody Question question) {
         HttpHeaders httpHeaders = new HttpHeaders();
 
-        if (question.content == null) {
-            return new ResponseEntity<>(null, httpHeaders, HttpStatus.BAD_REQUEST);
-        }
         Question q = new Question(question.content);
         q.setChoices(question.choices);
         q.choices.forEach(c -> c.setQuestion(q));
