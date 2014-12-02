@@ -11,17 +11,17 @@ import javax.persistence.ManyToOne;
  * Created by red on 11/22/14.
  */
 @Entity
-public class McqAnswer {
+public class Answer {
     @Id
     @GeneratedValue
     private Long id;
 
     @JsonIgnore
     @ManyToOne
-    private McqQuestion mcqQuestion;
+    private Question question;
     @JsonIgnore
     @ManyToOne
-    private McqChoice mcqChoice;
+    private Choice choice;
     @JsonIgnore
     @ManyToOne
     private McqTest mcqTest;
@@ -29,12 +29,12 @@ public class McqAnswer {
     @ManyToOne
     private Account account;
 
-    public McqAnswer() {
+    public Answer() {
     }
 
-    public McqAnswer(McqQuestion mcqQuestion, McqChoice mcqChoice, McqTest mcqTest, Account account) {
-        this.mcqQuestion = mcqQuestion;
-        this.mcqChoice = mcqChoice;
+    public Answer(Question question, Choice choice, McqTest mcqTest, Account account) {
+        this.question = question;
+        this.choice = choice;
         this.mcqTest = mcqTest;
         this.account = account;
     }

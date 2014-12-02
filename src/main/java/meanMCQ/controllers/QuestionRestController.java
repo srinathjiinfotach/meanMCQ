@@ -1,6 +1,6 @@
 package meanMCQ.controllers;
 
-import meanMCQ.domain.McqQuestion;
+import meanMCQ.domain.Question;
 import meanMCQ.service.QuestionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.Resources;
@@ -17,20 +17,20 @@ import java.util.stream.Collectors;
  * Created by red on 11/25/14.
  */
 @RestController
-@RequestMapping("/questions")
+@RequestMapping("/questions/")
 class QuestionRestController {
     private final QuestionRepository questionRepository;
 
     @RequestMapping(method = RequestMethod.POST)
-    ResponseEntity<?> create(@RequestBody McqQuestion mcqQuestion) {
+    ResponseEntity<?> create(@RequestBody Question question) {
         HttpHeaders httpHeaders = new HttpHeaders();
 
-        if (mcqQuestion.content == null) {
+        if (question.content == null) {
             return new ResponseEntity<>(null, httpHeaders, HttpStatus.BAD_REQUEST);
         }
-        McqQuestion q = new McqQuestion(mcqQuestion.content);
-        q.setMcqChoices(mcqQuestion.mcqChoices);
-        q.mcqChoices.forEach(c -> c.setMcqQuestion(q));
+        Question q = new Question(question.content);
+        q.setChoices(question.choices);
+        q.choices.forEach(c -> c.setQuestion(q));
         questionRepository.save(q);
 
         httpHeaders.setLocation(ServletUriComponentsBuilder

@@ -11,7 +11,7 @@ import javax.persistence.ManyToOne;
  * Created by red on 11/15/14.
  */
 @Entity
-public class McqChoice {
+public class Choice {
     @Id
     @GeneratedValue
     private Long id;
@@ -22,12 +22,12 @@ public class McqChoice {
 
     @JsonIgnore
     @ManyToOne
-    private McqQuestion mcqQuestion;
+    private Question question;
 
-	public McqChoice() {
+    public Choice() {
     }
 
-    public McqChoice(String content, boolean answer) {
+    public Choice(String content, boolean answer) {
         this.content = content;
         this.answer = answer;
     }
@@ -44,8 +44,8 @@ public class McqChoice {
         return id;
     }
 
-	public void setMcqQuestion(McqQuestion mcqQuestion) {
-		this.mcqQuestion = mcqQuestion;
-	}
-    
+    public void setQuestion(Question question) {
+        this.question = question;
+    }
+
 }

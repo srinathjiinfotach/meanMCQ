@@ -1,8 +1,8 @@
 package meanMCQ.Controllers;
 
 import meanMCQ.App;
-import meanMCQ.domain.McqChoice;
-import meanMCQ.domain.McqQuestion;
+import meanMCQ.domain.Choice;
+import meanMCQ.domain.Question;
 import meanMCQ.service.QuestionRepository;
 import org.junit.Assert;
 import org.junit.Before;
@@ -42,8 +42,8 @@ public class QuestionRestControllerTest {
 
     private HttpMessageConverter mappingJackson2HttpMessageConverter;
 
-    private McqQuestion mcqQuestion;
-    private List<McqQuestion> mcqQuestionList = new ArrayList<>();
+    private Question question;
+    private List<Question> questionList = new ArrayList<>();
 
     @Autowired
     private WebApplicationContext webApplicationContext;
@@ -67,32 +67,32 @@ public class QuestionRestControllerTest {
         this.questionRepository.deleteAll();
 
         for (int i = 1; i <= 10; i++) {
-            McqQuestion q = new McqQuestion("This is question " + i + "?");
-            Set<McqChoice> mcqChoices = new HashSet<>(4);
-            mcqChoices.add(new McqChoice("Choice 1", false));
-            mcqChoices.add(new McqChoice("Choice 2", false));
-            mcqChoices.add(new McqChoice("Choice 3", true));
-            mcqChoices.add(new McqChoice("Choice 4", false));
-            q.setMcqChoices(mcqChoices);
-            mcqChoices.forEach(c -> c.setMcqQuestion(q));
+            Question q = new Question("This is question " + i + "?");
+            Set<Choice> choices = new HashSet<>(4);
+            choices.add(new Choice("Choice 1", false));
+            choices.add(new Choice("Choice 2", false));
+            choices.add(new Choice("Choice 3", true));
+            choices.add(new Choice("Choice 4", false));
+            q.setChoices(choices);
+            choices.forEach(c -> c.setQuestion(q));
             questionRepository.save(q);
-            mcqQuestionList.add(q);
+            questionList.add(q);
         }
     }
 
     @Test
     public void createQuestion() throws Exception {
-        mcqQuestion = new McqQuestion("This is a test question?");
-        Set<McqChoice> mcqChoices = new HashSet<>(4);
-        mcqChoices.add(new McqChoice("Choice 1", false));
-        mcqChoices.add(new McqChoice("Choice 2", false));
-        mcqChoices.add(new McqChoice("Choice 3", true));
-        mcqChoices.add(new McqChoice("Choice 4", false));
+        question = new Question("This is a test question?");
+        Set<Choice> choices = new HashSet<>(4);
+        choices.add(new Choice("Choice 1", false));
+        choices.add(new Choice("Choice 2", false));
+        choices.add(new Choice("Choice 3", true));
+        choices.add(new Choice("Choice 4", false));
 
-        mcqQuestion.setMcqChoices(mcqChoices);
-        mcqChoices.forEach(c -> c.setMcqQuestion(mcqQuestion));
+        question.setChoices(choices);
+        choices.forEach(c -> c.setQuestion(question));
 
-        String questionJson = json(mcqQuestion);
+        String questionJson = json(question);
         this.mockMvc.perform(post("/questions")
                 .contentType(contentType)
                 .content(questionJson))

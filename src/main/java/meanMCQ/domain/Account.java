@@ -3,9 +3,7 @@ package meanMCQ.domain;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.validator.constraints.NotEmpty;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 /**
  * Created by Red on 11/15/14.
@@ -25,9 +23,13 @@ public class Account {
     @GeneratedValue
     private Long id;
 
-    public Account(String username, String password) {
+    @Enumerated(EnumType.STRING)
+    private AccountRole role;
+
+    public Account(String username, String password, AccountRole role) {
         this.username = username;
         this.password = password;
+        this.role = role;
     }
 
     public Account() {
@@ -43,5 +45,9 @@ public class Account {
 
     public String getUsername() {
         return username;
+    }
+
+    public AccountRole getRole() {
+        return role;
     }
 }

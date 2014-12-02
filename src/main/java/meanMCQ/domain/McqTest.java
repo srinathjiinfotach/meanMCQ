@@ -11,40 +11,40 @@ import java.util.Set;
  */
 @Entity
 public class McqTest {
-	@Id
-	@GeneratedValue
-	private Long id;
+    @Id
+    @GeneratedValue
+    private Long id;
 
-	private Date schedule;
-	private int duration; // in minutes
+    private Date schedule;
+    private int duration; // in minutes
 
-	@JsonIgnore
-	@ManyToOne
-	private Account account;
+    @JsonIgnore
+    @ManyToOne
+    private Account account;
 
     @OneToMany
-    private Set<McqQuestion> mcqQuestions;
+    private Set<Question> questions;
 
-	public McqTest() {
-	}
+    public McqTest() {
+    }
 
-	public McqTest(Date schedule, int duration,	Account account) {
-		this.schedule = schedule;
-		this.duration = duration;
-		this.account = account;
-	}
+    public McqTest(Date schedule, int duration, Account account) {
+        this.schedule = schedule;
+        this.duration = duration;
+        this.account = account;
+    }
 
-	public Long getId() {
-		return id;
-	}
+    public Long getId() {
+        return id;
+    }
 
-	public int getDuration() {
-		return duration;
-	}
+    public int getDuration() {
+        return duration;
+    }
 
-	public Date getSchedule() {
-		return schedule;
-	}
+    public Date getSchedule() {
+        return schedule;
+    }
 
 
 }

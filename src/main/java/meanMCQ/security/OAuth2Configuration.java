@@ -43,7 +43,8 @@ public class OAuth2Configuration extends AuthorizationServerConfigurerAdapter {
             // @formatter:off
             http
                     .authorizeRequests()
-                    .antMatchers("/questions").authenticated();
+                    .antMatchers("/questions/*")
+                    .hasAuthority("TESTER");
             // @formatter:on
         }
 
