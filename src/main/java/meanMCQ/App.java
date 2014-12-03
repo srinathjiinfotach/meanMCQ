@@ -1,10 +1,8 @@
 package meanMCQ;
 
-import meanMCQ.domain.Account;
-import meanMCQ.domain.AccountRole;
-import meanMCQ.domain.Choice;
-import meanMCQ.domain.Question;
+import meanMCQ.domain.*;
 import meanMCQ.service.AccountRepository;
+import meanMCQ.service.McqTestRepository;
 import meanMCQ.service.QuestionRepository;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
@@ -20,6 +18,8 @@ import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.time.Instant;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -69,11 +69,14 @@ public class App {
     }
 
     @Bean
-    CommandLineRunner init(QuestionRepository questionRepository, AccountRepository accountRepository) {
+    CommandLineRunner init(QuestionRepository questionRepository, AccountRepository accountRepository,
+                           McqTestRepository mcqTestRepository) {
 
         return (evt) -> {
             accountRepository.save(new Account("Musa", "pass1", AccountRole.TESTER));
             accountRepository.save(new Account("Isa", "pass2", AccountRole.PUPIL));
+
+            Set<Question> questions = new HashSet<>();
 
             for (int i = 1; i <= 10; i++) {
                 Question q = new Question("This is question " + i + "?");
@@ -85,7 +88,11 @@ public class App {
                 q.setChoices(choices);
                 choices.forEach(c -> c.setQuestion(q));
                 questionRepository.save(q);
+                questions.add(q);
             }
+
+            McqTest mcqTest = new McqTest(Date.from(Instant.now()), 30, questions);
+            mcqTestRepository.save(mcqTest);
 
         };
     }

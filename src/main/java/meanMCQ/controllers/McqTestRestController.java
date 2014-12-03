@@ -10,7 +10,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
@@ -25,8 +28,7 @@ class McqTestRestController {
     ResponseEntity<?> create(@RequestBody McqTest mcqTest) {
         HttpHeaders httpHeaders = new HttpHeaders();
 
-        McqTest test = new McqTest(mcqTest.schedule, mcqTest.duration);
-        test.setQuestions(mcqTest.questions);
+        McqTest test = new McqTest(mcqTest.schedule, mcqTest.duration, mcqTest.questions);
         mcqTestRepository.save(test);
 
         httpHeaders.setLocation(ServletUriComponentsBuilder

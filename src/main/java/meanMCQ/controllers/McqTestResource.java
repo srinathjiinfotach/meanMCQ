@@ -13,7 +13,11 @@ class McqTestResource extends ResourceSupport {
 
 
     public McqTestResource(McqTest mcqTest) {
-        this.mcqTest = mcqTest;
+        this.mcqTest = new McqTest(mcqTest.schedule,mcqTest.duration,mcqTest.questions);
         this.add(linkTo(McqTestRestController.class, getId()).withRel("mcqtests"));
+    }
+
+    public McqTest getMcqTest() {
+        return mcqTest;
     }
 }

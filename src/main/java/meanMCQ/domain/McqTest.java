@@ -1,9 +1,6 @@
 package meanMCQ.domain;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 import java.util.Date;
 import java.util.Set;
 
@@ -25,9 +22,10 @@ public class McqTest {
     public McqTest() {
     }
 
-    public McqTest(Date schedule, int duration) {
+    public McqTest(Date schedule, int duration, Set<Question> questions) {
         this.schedule = schedule;
         this.duration = duration;
+        this.questions = questions;
     }
 
     public Long getId() {
