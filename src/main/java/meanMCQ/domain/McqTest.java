@@ -1,5 +1,7 @@
 package meanMCQ.domain;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import javax.persistence.*;
 import java.util.Date;
 import java.util.Set;
@@ -16,7 +18,8 @@ public class McqTest {
     public Date schedule;
     public int duration; // in minutes
 
-    @OneToMany
+    @JsonManagedReference
+    @OneToMany(cascade = CascadeType.DETACH)
     public Set<Question> questions;
 
     public McqTest() {

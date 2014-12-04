@@ -44,12 +44,12 @@ public class OAuth2Configuration extends AuthorizationServerConfigurerAdapter {
             // @formatter:off
             http
                     .authorizeRequests()
-                    .antMatchers("/questions/*")
+                    .antMatchers("/questions/1/")
                     .hasAuthority(AccountRole.TESTER.toString());
 //                    .and()
 //                    .authorizeRequests()
-//                    .antMatchers("/mcqtests/*")
-//                    .hasAnyAuthority(AccountRole.TESTER.toString(), AccountRole.PUPIL.toString());
+//                    .antMatchers("/questions/*")
+//                    .hasAuthority(AccountRole.TESTER.toString());
             // @formatter:on
         }
 
