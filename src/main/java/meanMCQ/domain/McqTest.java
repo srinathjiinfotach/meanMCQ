@@ -1,5 +1,6 @@
 package meanMCQ.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import javax.persistence.*;
@@ -22,6 +23,10 @@ public class McqTest {
     @OneToMany(cascade = CascadeType.DETACH)
     public Set<Question> questions;
 
+    @JsonIgnore
+    @OneToMany(cascade = CascadeType.DETACH)
+    public Set<Account> pupils;
+
     public McqTest() {
     }
 
@@ -43,11 +48,19 @@ public class McqTest {
         return schedule;
     }
 
+    public Set<Account> getPupils() {
+        return pupils;
+    }
+
     public Set<Question> getQuestions() {
         return questions;
     }
 
     public void setQuestions(Set<Question> questions) {
         this.questions = questions;
+    }
+
+    public void setPupils(Set<Account> pupils) {
+        this.pupils = pupils;
     }
 }

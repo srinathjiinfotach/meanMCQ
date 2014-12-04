@@ -1,8 +1,9 @@
 package meanMCQ.Controllers;
 
 import meanMCQ.App;
-import meanMCQ.domain.Choice;
-import meanMCQ.domain.Question;
+import meanMCQ.domain.*;
+import meanMCQ.service.AccountRepository;
+import meanMCQ.service.McqTestRepository;
 import meanMCQ.service.QuestionRepository;
 import org.junit.Assert;
 import org.junit.Before;
@@ -21,6 +22,7 @@ import org.springframework.web.context.WebApplicationContext;
 
 import java.io.IOException;
 import java.nio.charset.Charset;
+import java.time.Instant;
 import java.util.*;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -33,7 +35,7 @@ import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppC
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(classes = App.class)
 @WebAppConfiguration
-public class QuestionRestControllerTest {
+public class meanMcqTest {
     private MediaType contentType = new MediaType(MediaType.APPLICATION_JSON.getType(),
             MediaType.APPLICATION_JSON.getSubtype(),
             Charset.forName("utf8"));
@@ -41,15 +43,19 @@ public class QuestionRestControllerTest {
     private MockMvc mockMvc;
 
     private HttpMessageConverter mappingJackson2HttpMessageConverter;
-
-    private Question question;
-    private List<Question> questionList = new ArrayList<>();
-
     @Autowired
     private WebApplicationContext webApplicationContext;
 
+    private Question question;
+    private Set<Question> questions;
+    private McqTest mcqTest;
+
     @Autowired
     private QuestionRepository questionRepository;
+    @Autowired
+    private McqTestRepository mcqTestRepository;
+    @Autowired
+    private AccountRepository accountRepository;
 
     @Autowired
     void setConverters(HttpMessageConverter<?>[] converters) {
@@ -64,9 +70,10 @@ public class QuestionRestControllerTest {
     public void setup() throws Exception {
         this.mockMvc = webAppContextSetup(webApplicationContext).build();
 
-        this.questionRepository.deleteAll();
+        accountRepository.save(new Account("tester1", "pass", AccountRole.TESTER));
 
         for (int i = 1; i <= 10; i++) {
+            accountRepository.save(new Account("pupil"+i, "pass", AccountRole.PUPIL));
             Question q = new Question("This is question " + i + "?");
             Set<Choice> choices = new HashSet<>(4);
             choices.add(new Choice("Choice 1", false));
@@ -76,8 +83,11 @@ public class QuestionRestControllerTest {
             q.setChoices(choices);
             choices.forEach(c -> c.setQuestion(q));
             questionRepository.save(q);
-            questionList.add(q);
+            questions.add(q);
         }
+
+        McqTest mcqTest = new McqTest(Date.from(Instant.now()), 30, questions);
+        mcqTestRepository.save(mcqTest);
     }
 
     @Test
@@ -96,6 +106,16 @@ public class QuestionRestControllerTest {
         this.mockMvc.perform(post("/questions")
                 .contentType(contentType)
                 .content(questionJson))
+                .andExpect(status().isCreated());
+    }
+
+    @Test
+    public void createTest() throws Exception {
+        mcqTest = new McqTest(Date.from(Instant.now()), 30, questions);
+        String mcqTestJson = json(mcqTest);
+        this.mockMvc.perform(post("/mcqtests")
+                .contentType(contentType)
+                .content(mcqTestJson))
                 .andExpect(status().isCreated());
     }
 

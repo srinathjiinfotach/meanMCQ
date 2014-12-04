@@ -73,12 +73,12 @@ public class App {
                            McqTestRepository mcqTestRepository) {
 
         return (evt) -> {
-            accountRepository.save(new Account("Musa", "pass1", AccountRole.TESTER));
-            accountRepository.save(new Account("Isa", "pass2", AccountRole.PUPIL));
+            accountRepository.save(new Account("Teacher", "pass", AccountRole.TESTER));
 
             Set<Question> questions = new HashSet<>();
 
             for (int i = 1; i <= 10; i++) {
+                accountRepository.save(new Account("Pupil"+i, "pass", AccountRole.PUPIL));
                 Question q = new Question("This is question " + i + "?");
                 Set<Choice> choices = new HashSet<>(4);
                 choices.add(new Choice("Choice 1", false));
