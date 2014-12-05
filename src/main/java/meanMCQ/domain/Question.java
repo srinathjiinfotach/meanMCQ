@@ -1,4 +1,8 @@
 package meanMCQ.domain;
+
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
+
 import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
@@ -14,7 +18,8 @@ public class Question {
 
     public String content;
 
-    @OneToMany(mappedBy = "question", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "question", fetch = FetchType.LAZY)
+    @Cascade(CascadeType.ALL)
     public Set<Choice> choices = new HashSet<>();
 
     public Question() {

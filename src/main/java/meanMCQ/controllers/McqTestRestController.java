@@ -30,7 +30,7 @@ class McqTestRestController {
     @RequestMapping(method = RequestMethod.POST)
     ResponseEntity<?> create(@RequestBody McqTest mcqTest) {
         Set<Question> questionSet = new HashSet<>();
-        mcqTest.questions.forEach(q -> questionSet.add(questionRepository.findOne(q.id)));
+        mcqTest.questions.forEach(q -> questionSet.add(questionRepository.findOne(q.getId())));
         McqTest test = new McqTest(mcqTest.schedule, mcqTest.duration);
         test.setQuestions(questionSet);
         mcqTestRepository.save(test);
@@ -54,12 +54,15 @@ class McqTestRestController {
     }
 
     @RequestMapping(value = "/{id}/pupil", method = RequestMethod.POST)
-    ResponseEntity<?> addPupil(@PathVariable Long id, Account pupil) {
+    ResponseEntity<?> addPupil(@PathVariable Long id, @RequestBody Account pupil) {
         HttpHeaders httpHeaders = new HttpHeaders();
-        if(pupil.username == null)
+        if (pupil.username == null)
             return new ResponseEntity<>(null, httpHeaders, HttpStatus.BAD_REQUEST);
 
         McqTest mcqTest = mcqTestRepository.findOne(id);
+        if (mcqTest == null)
+            return new ResponseEntity<>(null, httpHeaders, HttpStatus.NOT_FOUND);
+
         Account p = new Account();
         accountRepository.findByUsername(pupil.username).map(a -> p);
         mcqTest.pupils.add(p);

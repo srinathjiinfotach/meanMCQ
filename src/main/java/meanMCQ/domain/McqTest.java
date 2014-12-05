@@ -17,6 +17,7 @@ public class McqTest {
     @GeneratedValue
     private Long id;
 
+    @Temporal(TemporalType.TIMESTAMP)
     public Date schedule;
     public int duration; // in minutes
 
