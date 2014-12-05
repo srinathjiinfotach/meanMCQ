@@ -2,8 +2,10 @@ package meanMCQ.controllers;
 
 import meanMCQ.domain.Account;
 import meanMCQ.domain.McqTest;
+import meanMCQ.domain.Question;
 import meanMCQ.service.AccountRepository;
 import meanMCQ.service.McqTestRepository;
+import meanMCQ.service.QuestionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -12,6 +14,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Created by red on 12/3/14.
@@ -21,10 +25,14 @@ import java.util.Collection;
 class McqTestRestController {
     private final McqTestRepository mcqTestRepository;
     private final AccountRepository accountRepository;
+    private final QuestionRepository questionRepository;
 
     @RequestMapping(method = RequestMethod.POST)
     ResponseEntity<?> create(@RequestBody McqTest mcqTest) {
-        McqTest test = new McqTest(mcqTest.schedule, mcqTest.duration, mcqTest.questions);
+        Set<Question> questionSet = new HashSet<>();
+        mcqTest.questions.forEach(q -> questionSet.add(questionRepository.findOne(q.id)));
+        McqTest test = new McqTest(mcqTest.schedule, mcqTest.duration);
+        test.setQuestions(questionSet);
         mcqTestRepository.save(test);
 
         HttpHeaders httpHeaders = new HttpHeaders();
@@ -61,9 +69,10 @@ class McqTestRestController {
     }
 
     @Autowired
-    McqTestRestController(McqTestRepository mcqTestRepository, AccountRepository accountRepository) {
+    McqTestRestController(McqTestRepository mcqTestRepository, AccountRepository accountRepository, QuestionRepository questionRepository) {
         this.mcqTestRepository = mcqTestRepository;
         this.accountRepository = accountRepository;
+        this.questionRepository = questionRepository;
     }
 
 

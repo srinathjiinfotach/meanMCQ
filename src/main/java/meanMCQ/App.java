@@ -78,7 +78,7 @@ public class App {
             Set<Question> questions = new HashSet<>();
 
             for (int i = 1; i <= 10; i++) {
-                accountRepository.save(new Account("Pupil"+i, "pass", AccountRole.PUPIL));
+                accountRepository.save(new Account("Pupil" + i, "pass", AccountRole.PUPIL));
                 Question q = new Question("This is question " + i + "?");
                 Set<Choice> choices = new HashSet<>(4);
                 choices.add(new Choice("Choice 1", false));
@@ -91,7 +91,8 @@ public class App {
                 questions.add(q);
             }
 
-            McqTest mcqTest = new McqTest(Date.from(Instant.now()), 30, questions);
+            McqTest mcqTest = new McqTest(Date.from(Instant.now()), 30);
+            mcqTest.setQuestions(questions);
             mcqTestRepository.save(mcqTest);
 
         };

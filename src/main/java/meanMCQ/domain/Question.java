@@ -1,5 +1,4 @@
 package meanMCQ.domain;
-
 import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
@@ -11,12 +10,12 @@ import java.util.Set;
 public class Question {
     @Id
     @GeneratedValue
-    private Long id;
+    public Long id;
 
     public String content;
 
     @OneToMany(mappedBy = "question", cascade = CascadeType.ALL)
-    public Set<Choice> choices = new HashSet<Choice>();
+    public Set<Choice> choices = new HashSet<>();
 
     public Question() {
     }

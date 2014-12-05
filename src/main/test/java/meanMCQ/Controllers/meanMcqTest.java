@@ -1,7 +1,9 @@
 package meanMCQ.Controllers;
 
 import meanMCQ.App;
-import meanMCQ.domain.*;
+import meanMCQ.domain.Choice;
+import meanMCQ.domain.McqTest;
+import meanMCQ.domain.Question;
 import meanMCQ.service.AccountRepository;
 import meanMCQ.service.McqTestRepository;
 import meanMCQ.service.QuestionRepository;
@@ -23,7 +25,10 @@ import org.springframework.web.context.WebApplicationContext;
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.time.Instant;
-import java.util.*;
+import java.util.Arrays;
+import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -70,24 +75,28 @@ public class meanMcqTest {
     public void setup() throws Exception {
         this.mockMvc = webAppContextSetup(webApplicationContext).build();
 
-        accountRepository.save(new Account("tester1", "pass", AccountRole.TESTER));
+//        accountRepository.deleteAll();
+//        questionRepository.deleteAll();
+//        mcqTestRepository.deleteAll();
 
-        for (int i = 1; i <= 10; i++) {
-            accountRepository.save(new Account("pupil"+i, "pass", AccountRole.PUPIL));
-            Question q = new Question("This is question " + i + "?");
-            Set<Choice> choices = new HashSet<>(4);
-            choices.add(new Choice("Choice 1", false));
-            choices.add(new Choice("Choice 2", false));
-            choices.add(new Choice("Choice 3", true));
-            choices.add(new Choice("Choice 4", false));
-            q.setChoices(choices);
-            choices.forEach(c -> c.setQuestion(q));
-            questionRepository.save(q);
-            questions.add(q);
-        }
+//        accountRepository.save(new Account("tester1", "pass", AccountRole.TESTER));
 
-        McqTest mcqTest = new McqTest(Date.from(Instant.now()), 30, questions);
-        mcqTestRepository.save(mcqTest);
+//        for (int i = 1; i <= 10; i++) {
+//            accountRepository.save(new Account("pupil"+i, "pass", AccountRole.PUPIL));
+//            Question q = new Question("This is question " + i + "?");
+//            Set<Choice> choices = new HashSet<>(4);
+//            choices.add(new Choice("Choice 1", false));
+//            choices.add(new Choice("Choice 2", false));
+//            choices.add(new Choice("Choice 3", true));
+//            choices.add(new Choice("Choice 4", false));
+//            q.setChoices(choices);
+//            choices.forEach(c -> c.setQuestion(q));
+//            questionRepository.save(q);
+//            questions.add(q);
+//        }
+
+//        McqTest mcqTest = new McqTest(Date.from(Instant.now()), 30, questions);
+//        mcqTestRepository.save(mcqTest);
     }
 
     @Test
@@ -111,9 +120,11 @@ public class meanMcqTest {
 
     @Test
     public void createTest() throws Exception {
-        mcqTest = new McqTest(Date.from(Instant.now()), 30, questions);
+        questions = new HashSet<>(questionRepository.findAll());
+        mcqTest = new McqTest(Date.from(Instant.now()), 30);
+        mcqTest.setQuestions(questions);
         String mcqTestJson = json(mcqTest);
-        this.mockMvc.perform(post("/mcqtests")
+        this.mockMvc.perform(post("/mcqtests/")
                 .contentType(contentType)
                 .content(mcqTestJson))
                 .andExpect(status().isCreated());
