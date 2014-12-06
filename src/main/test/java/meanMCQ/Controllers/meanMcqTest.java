@@ -4,9 +4,9 @@ import meanMCQ.App;
 import meanMCQ.domain.Choice;
 import meanMCQ.domain.McqTest;
 import meanMCQ.domain.Question;
-import meanMCQ.service.AccountRepository;
 import meanMCQ.service.McqTestRepository;
 import meanMCQ.service.QuestionRepository;
+import meanMCQ.service.UserRepository;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -60,7 +60,7 @@ public class meanMcqTest {
     @Autowired
     private McqTestRepository mcqTestRepository;
     @Autowired
-    private AccountRepository accountRepository;
+    private UserRepository userRepository;
 
     @Autowired
     void setConverters(HttpMessageConverter<?>[] converters) {
@@ -75,14 +75,14 @@ public class meanMcqTest {
     public void setup() throws Exception {
         this.mockMvc = webAppContextSetup(webApplicationContext).build();
 
-//        accountRepository.deleteAll();
+//        userRepository.deleteAll();
 //        questionRepository.deleteAll();
 //        mcqTestRepository.deleteAll();
 
-//        accountRepository.save(new Account("tester1", "pass", AccountRole.TESTER));
+//        userRepository.save(new Account("tester1", "pass", UserRole.EXAMINER));
 
 //        for (int i = 1; i <= 10; i++) {
-//            accountRepository.save(new Account("pupil"+i, "pass", AccountRole.PUPIL));
+//            userRepository.save(new Account("pupil"+i, "pass", UserRole.STUDENT));
 //            Question q = new Question("This is question " + i + "?");
 //            Set<Choice> choices = new HashSet<>(4);
 //            choices.add(new Choice("Choice 1", false));

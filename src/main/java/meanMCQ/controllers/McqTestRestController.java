@@ -1,11 +1,11 @@
 package meanMCQ.controllers;
 
-import meanMCQ.domain.Account;
 import meanMCQ.domain.McqTest;
 import meanMCQ.domain.Question;
-import meanMCQ.service.AccountRepository;
+import meanMCQ.domain.User;
 import meanMCQ.service.McqTestRepository;
 import meanMCQ.service.QuestionRepository;
+import meanMCQ.service.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -24,7 +24,7 @@ import java.util.Set;
 @RequestMapping("/mcqtests")
 class McqTestRestController {
     private final McqTestRepository mcqTestRepository;
-    private final AccountRepository accountRepository;
+    private final UserRepository userRepository;
     private final QuestionRepository questionRepository;
 
     @RequestMapping(method = RequestMethod.POST)
@@ -53,28 +53,29 @@ class McqTestRestController {
         return mcqTestRepository.findOne(id);
     }
 
-    @RequestMapping(value = "/{id}/pupil", method = RequestMethod.POST)
-    ResponseEntity<?> addPupil(@PathVariable Long id, @RequestBody Account pupil) {
+    @RequestMapping(value = "/{id}/students", method = RequestMethod.GET)
+    Collection<User> getStudents(@PathVariable Long id) {
+        return mcqTestRepository.findOne(id).students;
+    }
+
+    @RequestMapping(value = "/{id}/students", method = RequestMethod.POST)
+    ResponseEntity<?> addStudent(@PathVariable Long id, @RequestBody User student) {
         HttpHeaders httpHeaders = new HttpHeaders();
-        if (pupil.username == null)
-            return new ResponseEntity<>(null, httpHeaders, HttpStatus.BAD_REQUEST);
 
         McqTest mcqTest = mcqTestRepository.findOne(id);
         if (mcqTest == null)
             return new ResponseEntity<>(null, httpHeaders, HttpStatus.NOT_FOUND);
 
-        Account p = new Account();
-        accountRepository.findByUsername(pupil.username).map(a -> p);
-        mcqTest.pupils.add(p);
+        userRepository.findByUsername(student.username).map(s -> mcqTest.students.add(s));
         mcqTestRepository.save(mcqTest);
 
         return new ResponseEntity<>(null, httpHeaders, HttpStatus.ACCEPTED);
     }
 
     @Autowired
-    McqTestRestController(McqTestRepository mcqTestRepository, AccountRepository accountRepository, QuestionRepository questionRepository) {
+    McqTestRestController(McqTestRepository mcqTestRepository, UserRepository userRepository, QuestionRepository questionRepository) {
         this.mcqTestRepository = mcqTestRepository;
-        this.accountRepository = accountRepository;
+        this.userRepository = userRepository;
         this.questionRepository = questionRepository;
     }
 

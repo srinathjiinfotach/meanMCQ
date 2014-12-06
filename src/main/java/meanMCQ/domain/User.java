@@ -12,7 +12,7 @@ import javax.persistence.*;
  */
 
 @Entity
-public class Account {
+public class User {
     @NotEmpty
     public String username;
     @JsonIgnore
@@ -24,15 +24,15 @@ public class Account {
     private Long id;
 
     @Enumerated(EnumType.STRING)
-    private AccountRole role;
+    private UserRole role;
 
-    public Account(String username, String password, AccountRole role) {
+    public User(String username, String password, UserRole role) {
         this.username = username;
         this.password = password;
         this.role = role;
     }
 
-    public Account() {
+    public User() {
     }
 
     public Long getId() {
@@ -47,7 +47,12 @@ public class Account {
         return username;
     }
 
-    public AccountRole getRole() {
+    public UserRole getRole() {
         return role;
+    }
+
+    @Override
+    public String toString() {
+        return this.username;
     }
 }

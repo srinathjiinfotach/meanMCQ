@@ -27,15 +27,20 @@ public class Answer {
     private McqTest mcqTest;
     @JsonIgnore
     @ManyToOne
-    private Account account;
+    private User student;
 
     public Answer() {
     }
 
-    public Answer(Question question, Choice choice, McqTest mcqTest, Account account) {
+    public Answer(Question question, Choice choice, McqTest mcqTest, User student) {
         this.question = question;
         this.choice = choice;
         this.mcqTest = mcqTest;
-        this.account = account;
+        this.student = student;
+    }
+
+    @Override
+    public String toString() {
+        return this.choice.toString();
     }
 }

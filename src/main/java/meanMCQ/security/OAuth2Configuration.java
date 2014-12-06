@@ -1,6 +1,6 @@
 package meanMCQ.security;
 
-import meanMCQ.domain.AccountRole;
+import meanMCQ.domain.UserRole;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -43,13 +43,25 @@ public class OAuth2Configuration extends AuthorizationServerConfigurerAdapter {
         public void configure(HttpSecurity http) throws Exception {
             // @formatter:off
             http
-                    .authorizeRequests()
-                    .antMatchers("/questions/1/")
-                    .hasAuthority(AccountRole.TESTER.toString());
-//                    .and()
 //                    .authorizeRequests()
 //                    .antMatchers("/questions/*")
-//                    .hasAuthority(AccountRole.TESTER.toString());
+//                    .hasAuthority(UserRole.EXAMINER.toString())
+//                    .and()
+//                    .authorizeRequests()
+//                    .antMatchers("/choices/*")
+//                    .hasAuthority(UserRole.EXAMINER.toString())
+//                    .and()
+//                    .authorizeRequests()
+//                    .antMatchers("/mcqtests/*")
+//                    .hasAuthority(UserRole.EXAMINER.toString())
+//                    .and()
+//                    .authorizeRequests()
+//                    .antMatchers("/mcqresults/*")
+//                    .hasAuthority(UserRole.EXAMINER.toString())
+//                    .and()
+                    .authorizeRequests()
+                    .antMatchers("/answers/*")
+                    .hasAuthority(UserRole.EXAMINER.toString());
             // @formatter:on
         }
 
@@ -79,7 +91,7 @@ public class OAuth2Configuration extends AuthorizationServerConfigurerAdapter {
 
         clients.inMemory().withClient(applicationName)
                 .authorizedGrantTypes("password", "authorization_code", "refresh_token")
-                .authorities("TESTER", "PUPIL")
+                .authorities("EXAMINER", "STUDENT")
                 .scopes("read", "write")
                 .resourceIds(applicationName)
                 .secret("123456");

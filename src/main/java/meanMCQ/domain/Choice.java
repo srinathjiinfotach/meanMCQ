@@ -48,4 +48,8 @@ public class Choice {
         this.question = question;
     }
 
+    @Override
+    public String toString() {
+        return this.content;
+    }
 }

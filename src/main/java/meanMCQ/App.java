@@ -1,9 +1,9 @@
 package meanMCQ;
 
 import meanMCQ.domain.*;
-import meanMCQ.service.AccountRepository;
 import meanMCQ.service.McqTestRepository;
 import meanMCQ.service.QuestionRepository;
+import meanMCQ.service.UserRepository;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -12,6 +12,9 @@ import org.springframework.boot.context.embedded.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.data.rest.webmvc.config.RepositoryRestMvcConfiguration;
 import org.springframework.http.HttpStatus;
 
 import javax.servlet.*;
@@ -19,15 +22,15 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.time.Instant;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Created by red on 11/28/14.
  */
 @Configuration
 @ComponentScan
+@EnableJpaRepositories
+@Import(RepositoryRestMvcConfiguration.class)
 @EnableAutoConfiguration
 public class App {
     public static void main(String[] args) {
@@ -69,22 +72,24 @@ public class App {
     }
 
     @Bean
-    CommandLineRunner init(QuestionRepository questionRepository, AccountRepository accountRepository,
+    CommandLineRunner init(QuestionRepository questionRepository, UserRepository userRepository,
                            McqTestRepository mcqTestRepository) {
 
         return (evt) -> {
-            accountRepository.save(new Account("Teacher", "pass", AccountRole.TESTER));
+            userRepository.save(new User("Teacher", "pass", UserRole.EXAMINER));
 
             Set<Question> questions = new HashSet<>();
 
             for (int i = 1; i <= 10; i++) {
-                accountRepository.save(new Account("Pupil" + i, "pass", AccountRole.PUPIL));
+                userRepository.save(new User("Student" + i, "pass", UserRole.STUDENT));
                 Question q = new Question("This is question " + i + "?");
-                Set<Choice> choices = new HashSet<>(4);
-                choices.add(new Choice("Choice 1", false));
-                choices.add(new Choice("Choice 2", false));
-                choices.add(new Choice("Choice 3", true));
-                choices.add(new Choice("Choice 4", false));
+
+                List<Choice> choiceList = new ArrayList<>();
+                choiceList.add(new Choice("Choice 1", false));
+                choiceList.add(new Choice("Choice 2", false));
+                choiceList.add(new Choice("Choice 3", true));
+                choiceList.add(new Choice("Choice 4", false));
+                Set<Choice> choices = new HashSet<>(choiceList);
                 q.setChoices(choices);
                 choices.forEach(c -> c.setQuestion(q));
                 questionRepository.save(q);

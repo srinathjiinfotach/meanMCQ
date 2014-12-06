@@ -1,6 +1,6 @@
 package meanMCQ.security;
 
-import meanMCQ.service.AccountRepository;
+import meanMCQ.service.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -17,7 +17,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 public class SecurityConfiguration extends GlobalAuthenticationConfigurerAdapter {
 
     @Autowired
-    AccountRepository accountRepository;
+    UserRepository userRepository;
 
     @Override
     public void init(AuthenticationManagerBuilder auth) throws Exception {
@@ -26,7 +26,7 @@ public class SecurityConfiguration extends GlobalAuthenticationConfigurerAdapter
 
     @Bean
     UserDetailsService userDetailsService() {
-        return (username) -> accountRepository
+        return (username) -> userRepository
                 .findByUsername(username)
                 .map(a -> new User(a.username, a.password, true, true, true, true,
                         AuthorityUtils.createAuthorityList(a.getRole().toString(), "read write")))

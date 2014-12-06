@@ -26,8 +26,9 @@ public class McqTest {
     public Set<Question> questions;
 
     @JsonIgnore
-    @OneToMany
-    public Set<Account> pupils;
+    @ManyToMany(fetch = FetchType.LAZY)
+    @Cascade(CascadeType.REFRESH)
+    public Set<User> students;
 
     public McqTest() {
     }
@@ -49,8 +50,8 @@ public class McqTest {
         return schedule;
     }
 
-    public Set<Account> getPupils() {
-        return pupils;
+    public Set<User> getStudents() {
+        return students;
     }
 
     public Set<Question> getQuestions() {
@@ -61,7 +62,7 @@ public class McqTest {
         this.questions = questions;
     }
 
-    public void setPupils(Set<Account> pupils) {
-        this.pupils = pupils;
+    public void setStudents(Set<User> students) {
+        this.students = students;
     }
 }

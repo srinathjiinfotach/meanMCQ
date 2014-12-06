@@ -20,7 +20,7 @@ public class McqResult {
 
     @JsonIgnore
     @ManyToOne
-    private Account account;
+    private User student;
 
     @JsonIgnore
     @ManyToOne
@@ -29,9 +29,9 @@ public class McqResult {
     public McqResult() {
     }
 
-    public McqResult(double marks, Account account, McqTest mcqTest) {
+    public McqResult(double marks, User student, McqTest mcqTest) {
         this.marks = marks;
-        this.account = account;
+        this.student = student;
         this.mcqTest = mcqTest;
     }
 
@@ -43,12 +43,16 @@ public class McqResult {
         return marks;
     }
 
-    public Account getAccount() {
-        return account;
+    public User getStudent() {
+        return student;
     }
 
     public McqTest getMcqTest() {
         return mcqTest;
     }
 
+    @Override
+    public String toString() {
+        return student.toString() + " : " + this.marks;
+    }
 }
