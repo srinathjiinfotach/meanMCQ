@@ -27,6 +27,19 @@ class McqTestRestController {
     private final UserRepository userRepository;
     private final QuestionRepository questionRepository;
 
+    // Get all tests
+    @RequestMapping(method = RequestMethod.GET)
+    Collection<McqTest> getTests() {
+        return mcqTestRepository.findAll();
+    }
+
+    // Get a specific test
+    @RequestMapping(method = RequestMethod.GET, value = "/{id}")
+    McqTest getTest(@PathVariable Long id) {
+        return mcqTestRepository.findOne(id);
+    }
+
+    // Create a test
     @RequestMapping(method = RequestMethod.POST)
     ResponseEntity<?> create(@RequestBody McqTest mcqTest) {
         Set<Question> questionSet = new HashSet<>();
@@ -43,21 +56,38 @@ class McqTestRestController {
         return new ResponseEntity<>(null, httpHeaders, HttpStatus.CREATED);
     }
 
-    @RequestMapping(method = RequestMethod.GET)
-    Collection<McqTest> getTests() {
-        return mcqTestRepository.findAll();
+    // Get all questions in the test
+    @RequestMapping(value = "/{id}/questions", method = RequestMethod.GET)
+    Collection<Question> getQuestions(@PathVariable Long id){
+        return mcqTestRepository.findOne(id).getQuestions();
     }
 
-    @RequestMapping(method = RequestMethod.GET, value = "/{id}")
-    McqTest getTest(@PathVariable Long id) {
-        return mcqTestRepository.findOne(id);
+    // Add questions to the test
+    @RequestMapping(value = "/{id}/questions", method = RequestMethod.POST)
+    ResponseEntity<?> addQuestions(@PathVariable Long id, @RequestBody Collection<Question> questions){
+        HttpHeaders httpHeaders = new HttpHeaders();
+        McqTest mcqTest = mcqTestRepository.findOne(id);
+
+        if (mcqTest == null)
+            return new ResponseEntity<>(null, httpHeaders, HttpStatus.NOT_FOUND);
+
+        questions.forEach(q -> mcqTest.questions.add(questionRepository.findOne(q.getId())));
+        mcqTestRepository.save(mcqTest);
+
+        httpHeaders.setLocation(ServletUriComponentsBuilder
+                .fromCurrentRequest().path("/{id}")
+                .buildAndExpand(mcqTest.getId()).toUri());
+
+        return new ResponseEntity<>(null, httpHeaders, HttpStatus.ACCEPTED);
     }
 
+    // Get all students enrolled
     @RequestMapping(value = "/{id}/students", method = RequestMethod.GET)
     Collection<User> getStudents(@PathVariable Long id) {
         return mcqTestRepository.findOne(id).students;
     }
 
+    // Add students to take the test
     @RequestMapping(value = "/{id}/students", method = RequestMethod.POST)
     ResponseEntity<?> addStudent(@PathVariable Long id, @RequestBody User student) {
         HttpHeaders httpHeaders = new HttpHeaders();
@@ -66,7 +96,7 @@ class McqTestRestController {
         if (mcqTest == null)
             return new ResponseEntity<>(null, httpHeaders, HttpStatus.NOT_FOUND);
 
-        userRepository.findByUsername(student.username).map(s -> mcqTest.students.add(s));
+        userRepository.findByUsername(student.getUsername()).map(s -> mcqTest.students.add(s));
         mcqTestRepository.save(mcqTest);
 
         return new ResponseEntity<>(null, httpHeaders, HttpStatus.ACCEPTED);

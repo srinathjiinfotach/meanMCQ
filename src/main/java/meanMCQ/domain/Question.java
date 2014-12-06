@@ -14,7 +14,7 @@ import java.util.Set;
 public class Question {
     @Id
     @GeneratedValue
-    public Long id;
+    private Long id;
 
     public String content;
 

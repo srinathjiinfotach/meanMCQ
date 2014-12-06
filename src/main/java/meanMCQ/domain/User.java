@@ -14,10 +14,10 @@ import javax.persistence.*;
 @Entity
 public class User {
     @NotEmpty
-    public String username;
+    private String username;
     @JsonIgnore
     @NotEmpty
-    public String password;
+    private String password;
 
     @Id
     @GeneratedValue

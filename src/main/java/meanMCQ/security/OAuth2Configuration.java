@@ -17,8 +17,8 @@ import org.springframework.security.oauth2.config.annotation.web.configurers.Aut
 import org.springframework.security.oauth2.config.annotation.web.configurers.ResourceServerSecurityConfigurer;
 
 /**
- * Created by red on 12/1/14.
- */
+* Created by red on 12/1/14.
+*/
 @Configuration
 @EnableResourceServer
 @EnableAuthorizationServer
@@ -44,18 +44,6 @@ public class OAuth2Configuration extends AuthorizationServerConfigurerAdapter {
             // @formatter:off
             http
 //                    .authorizeRequests()
-//                    .antMatchers("/questions/*")
-//                    .hasAuthority(UserRole.EXAMINER.toString())
-//                    .and()
-//                    .authorizeRequests()
-//                    .antMatchers("/choices/*")
-//                    .hasAuthority(UserRole.EXAMINER.toString())
-//                    .and()
-//                    .authorizeRequests()
-//                    .antMatchers("/mcqtests/*")
-//                    .hasAuthority(UserRole.EXAMINER.toString())
-//                    .and()
-//                    .authorizeRequests()
 //                    .antMatchers("/mcqresults/*")
 //                    .hasAuthority(UserRole.EXAMINER.toString())
 //                    .and()
@@ -69,6 +57,7 @@ public class OAuth2Configuration extends AuthorizationServerConfigurerAdapter {
 
     // This is required for password grants, which we specify below as one of the
     // {@literal authorizedGrantTypes()}.
+    @SuppressWarnings("SpringJavaAutowiringInspection")
     @Autowired
     AuthenticationManagerBuilder authenticationManager;
 
@@ -91,7 +80,7 @@ public class OAuth2Configuration extends AuthorizationServerConfigurerAdapter {
 
         clients.inMemory().withClient(applicationName)
                 .authorizedGrantTypes("password", "authorization_code", "refresh_token")
-                .authorities("EXAMINER", "STUDENT")
+                .authorities(UserRole.EXAMINER.toString(), UserRole.STUDENT.toString())
                 .scopes("read", "write")
                 .resourceIds(applicationName)
                 .secret("123456");
