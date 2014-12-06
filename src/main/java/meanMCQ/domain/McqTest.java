@@ -65,4 +65,17 @@ public class McqTest {
     public void setStudents(Set<User> students) {
         this.students = students;
     }
+
+    // check test validity
+    public boolean isValid() {
+        final long ONE_MINUTE_IN_MILLIS = 60000;//millisecs
+        long t = this.schedule.getTime();
+        Date schedule_ends = new Date(t + (this.duration * ONE_MINUTE_IN_MILLIS));
+        Date current_time = new Date();
+
+        if (schedule_ends.before(current_time))
+            return false;
+
+        return true;
+    }
 }

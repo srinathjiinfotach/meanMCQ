@@ -48,7 +48,7 @@ public class OAuth2Configuration extends AuthorizationServerConfigurerAdapter {
 //                    .hasAuthority(UserRole.EXAMINER.toString())
 //                    .and()
                     .authorizeRequests()
-                    .antMatchers("/random/*")
+                    .antMatchers("/exam/*")
                     .hasAuthority(UserRole.EXAMINER.toString());
             // @formatter:on
         }

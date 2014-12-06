@@ -21,7 +21,6 @@ import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.time.Instant;
 import java.util.*;
 
 /**
@@ -96,7 +95,7 @@ public class App {
                 questions.add(q);
             }
 
-            McqTest mcqTest = new McqTest(Date.from(Instant.now()), 30);
+            McqTest mcqTest = new McqTest(new Date(), 30);
             mcqTest.setQuestions(questions);
             mcqTestRepository.save(mcqTest);
 

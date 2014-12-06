@@ -22,6 +22,10 @@ public class Answer {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @Cascade(CascadeType.REFRESH)
+    private Question question;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @Cascade(CascadeType.REFRESH)
     private McqTest mcqTest;
 
     @JsonIgnore
@@ -32,10 +36,32 @@ public class Answer {
     public Answer() {
     }
 
-    public Answer(Set<Choice> choices, McqTest mcqTest, User student) {
+    public Answer(Set<Choice> choices, Question question, McqTest mcqTest, User student) {
         this.choices = choices;
+        this.question = question;
         this.mcqTest = mcqTest;
         this.student = student;
     }
+
+    public Long getId() {
+        return id;
+    }
+
+    public Set<Choice> getChoices() {
+        return choices;
+    }
+
+    public Question getQuestion() {
+        return question;
+    }
+
+    public McqTest getMcqTest() {
+        return mcqTest;
+    }
+
+    public User getStudent() {
+        return student;
+    }
+
 
 }
