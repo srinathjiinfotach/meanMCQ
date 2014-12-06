@@ -48,7 +48,7 @@ public class OAuth2Configuration extends AuthorizationServerConfigurerAdapter {
 //                    .hasAuthority(UserRole.EXAMINER.toString())
 //                    .and()
                     .authorizeRequests()
-                    .antMatchers("/answers/*")
+                    .antMatchers("/random/*")
                     .hasAuthority(UserRole.EXAMINER.toString());
             // @formatter:on
         }
@@ -83,6 +83,7 @@ public class OAuth2Configuration extends AuthorizationServerConfigurerAdapter {
                 .authorities(UserRole.EXAMINER.toString(), UserRole.STUDENT.toString())
                 .scopes("read", "write")
                 .resourceIds(applicationName)
+                .redirectUris("https://www.getpostman.com/oauth2/callback")
                 .secret("123456");
     }
 }

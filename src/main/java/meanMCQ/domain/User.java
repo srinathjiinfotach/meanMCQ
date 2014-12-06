@@ -15,7 +15,6 @@ import javax.persistence.*;
 public class User {
     @NotEmpty
     private String username;
-    @JsonIgnore
     @NotEmpty
     private String password;
 
@@ -24,7 +23,7 @@ public class User {
     private Long id;
 
     @Enumerated(EnumType.STRING)
-    private UserRole role;
+    public UserRole role;
 
     public User(String username, String password, UserRole role) {
         this.username = username;
@@ -39,6 +38,7 @@ public class User {
         return id;
     }
 
+    @JsonIgnore
     public String getPassword() {
         return password;
     }
@@ -51,8 +51,12 @@ public class User {
         return role;
     }
 
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
     @Override
     public String toString() {
-        return this.username;
+        return this.username + " - " + this.role;
     }
 }

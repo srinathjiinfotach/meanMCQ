@@ -7,7 +7,6 @@ import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 /**
  * Created by red on 11/25/14.
  */
-@RepositoryRestResource(exported = false, collectionResourceRel = "mcqtest", path = "mcqtests",
-        itemResourceRel = "question")
+@RepositoryRestResource(exported = false)
 public interface McqTestRepository extends JpaRepository<McqTest, Long> {
 }

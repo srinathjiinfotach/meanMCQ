@@ -7,6 +7,6 @@ import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 /**
  * Created by red on 12/6/14.
  */
-@RepositoryRestResource(exported = false, collectionResourceRel = "answer", path = "answers")
+@RepositoryRestResource(exported = false)
 public interface AnswerRepository extends JpaRepository<Answer, Long> {
 }
