@@ -28,7 +28,7 @@ public class McqTest {
     @JsonIgnore
     @ManyToMany(fetch = FetchType.LAZY)
     @Cascade(CascadeType.REFRESH)
-    public Set<User> students;
+    public Set<User> users;
 
     public McqTest() {
     }
@@ -50,8 +50,8 @@ public class McqTest {
         return schedule;
     }
 
-    public Set<User> getStudents() {
-        return students;
+    public Set<User> getUsers() {
+        return users;
     }
 
     public Set<Question> getQuestions() {
@@ -62,8 +62,8 @@ public class McqTest {
         this.questions = questions;
     }
 
-    public void setStudents(Set<User> students) {
-        this.students = students;
+    public void setUsers(Set<User> users) {
+        this.users = users;
     }
 
     // check test validity

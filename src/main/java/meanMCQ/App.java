@@ -89,7 +89,7 @@ public class App {
                 choiceList.add(new Choice("Choice 3", true));
                 choiceList.add(new Choice("Choice 4", false));
                 Set<Choice> choices = new HashSet<>(choiceList);
-                q.setChoices(choices);
+                q.choices.addAll(choiceList);
                 choices.forEach(c -> c.setQuestion(q));
                 questionRepository.save(q);
                 questions.add(q);

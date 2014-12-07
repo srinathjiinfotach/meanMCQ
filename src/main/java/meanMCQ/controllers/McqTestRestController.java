@@ -57,13 +57,13 @@ class McqTestRestController {
 
     // get all questions in the test
     @RequestMapping(value = "/{id}/questions", method = RequestMethod.GET)
-    Collection<Question> getQuestions(@PathVariable Long id){
+    Collection<Question> getQuestions(@PathVariable Long id) {
         return mcqTestRepository.findOne(id).getQuestions();
     }
 
     // add questions to the test
     @RequestMapping(value = "/{id}/questions", method = RequestMethod.POST)
-    ResponseEntity<?> addQuestions(@PathVariable Long id, @RequestBody Collection<Question> questions){
+    ResponseEntity<?> addQuestions(@PathVariable Long id, @RequestBody Collection<Question> questions) {
         HttpHeaders httpHeaders = new HttpHeaders();
         McqTest mcqTest = mcqTestRepository.findOne(id);
 
@@ -80,14 +80,14 @@ class McqTestRestController {
         return new ResponseEntity<>(null, httpHeaders, HttpStatus.ACCEPTED);
     }
 
-    // get all students enrolled
-    @RequestMapping(value = "/{id}/students", method = RequestMethod.GET)
+    // get all users enrolled
+    @RequestMapping(value = "/{id}/users", method = RequestMethod.GET)
     Collection<User> getStudents(@PathVariable Long id) {
-        return mcqTestRepository.findOne(id).students;
+        return mcqTestRepository.findOne(id).users;
     }
 
-    // enroll students to the test
-    @RequestMapping(value = "/{id}/students", method = RequestMethod.POST)
+    // enroll users to the test
+    @RequestMapping(value = "/{id}/users", method = RequestMethod.POST)
     ResponseEntity<?> addStudent(@PathVariable Long id, @RequestBody User student) {
         HttpHeaders httpHeaders = new HttpHeaders();
 
@@ -95,7 +95,7 @@ class McqTestRestController {
         if (mcqTest == null)
             return new ResponseEntity<>(null, httpHeaders, HttpStatus.NOT_FOUND);
 
-        userRepository.findByUsername(student.getUsername()).map(s -> mcqTest.students.add(s));
+        userRepository.findByUsername(student.getUsername()).map(s -> mcqTest.users.add(s));
         mcqTestRepository.save(mcqTest);
 
         return new ResponseEntity<>(null, httpHeaders, HttpStatus.ACCEPTED);

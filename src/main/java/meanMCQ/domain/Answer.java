@@ -31,16 +31,16 @@ public class Answer {
     @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     @Cascade(CascadeType.REFRESH)
-    private User student;
+    private User user;
 
     public Answer() {
     }
 
-    public Answer(Set<Choice> choices, Question question, McqTest mcqTest, User student) {
+    public Answer(Set<Choice> choices, Question question, McqTest mcqTest, User user) {
         this.choices = choices;
         this.question = question;
         this.mcqTest = mcqTest;
-        this.student = student;
+        this.user = user;
     }
 
     public Long getId() {
@@ -59,8 +59,8 @@ public class Answer {
         return mcqTest;
     }
 
-    public User getStudent() {
-        return student;
+    public User getUser() {
+        return user;
     }
 
 

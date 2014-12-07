@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.mail.MailSender;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -16,14 +15,12 @@ import java.util.Collection;
  * Created by red on 12/6/14.
  */
 @RestController
-@RequestMapping(value = "/users")
 class UserRestController {
     private final UserRepository userRepository;
-    private MailSender mailSender;
 
     // create user
-    @RequestMapping(method = RequestMethod.POST)
-    ResponseEntity<?> create(@RequestBody User user){
+    @RequestMapping(value = "/users", method = RequestMethod.POST)
+    ResponseEntity<?> create(@RequestBody User user) {
         HttpHeaders httpHeaders = new HttpHeaders();
 
         // create random password and send it to user's email
