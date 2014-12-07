@@ -3,6 +3,7 @@ package meanMCQ.controllers;
 import meanMCQ.domain.McqTest;
 import meanMCQ.domain.Question;
 import meanMCQ.domain.User;
+import meanMCQ.service.ChoiceRepository;
 import meanMCQ.service.McqTestRepository;
 import meanMCQ.service.QuestionRepository;
 import meanMCQ.service.UserRepository;
@@ -25,6 +26,7 @@ class McqTestRestController {
     private final McqTestRepository mcqTestRepository;
     private final UserRepository userRepository;
     private final QuestionRepository questionRepository;
+    private final ChoiceRepository choiceRepository;
 
     // get all tests
     @RequestMapping(method = RequestMethod.GET)
@@ -80,6 +82,18 @@ class McqTestRestController {
         return new ResponseEntity<>(null, httpHeaders, HttpStatus.ACCEPTED);
     }
 
+    // get all the answers of this test
+//    @RequestMapping(value = "/{id}/answers", method = RequestMethod.GET)
+//    Collection<Choice> getAnswers(@PathVariable Long id){
+//        Collection<Choice> choices = new ArrayList<>();
+//        mcqTestRepository.findOne(id).getQuestions().forEach(
+//                q -> {
+//                    choices.add(choiceRepository.findByQuestionAndAnswer(q,true).get(0));
+//                }
+//        );
+//        return choices;
+//    }
+
     // get all users enrolled
     @RequestMapping(value = "/{id}/users", method = RequestMethod.GET)
     Collection<User> getStudents(@PathVariable Long id) {
@@ -102,10 +116,11 @@ class McqTestRestController {
     }
 
     @Autowired
-    McqTestRestController(McqTestRepository mcqTestRepository, UserRepository userRepository, QuestionRepository questionRepository) {
+    McqTestRestController(McqTestRepository mcqTestRepository, UserRepository userRepository, QuestionRepository questionRepository, ChoiceRepository choiceRepository) {
         this.mcqTestRepository = mcqTestRepository;
         this.userRepository = userRepository;
         this.questionRepository = questionRepository;
+        this.choiceRepository = choiceRepository;
     }
 
 }

@@ -17,8 +17,8 @@ import org.springframework.security.oauth2.config.annotation.web.configurers.Aut
 import org.springframework.security.oauth2.config.annotation.web.configurers.ResourceServerSecurityConfigurer;
 
 /**
-* Created by red on 12/1/14.
-*/
+ * Created by red on 12/1/14.
+ */
 @Configuration
 @EnableResourceServer
 @EnableAuthorizationServer
@@ -43,13 +43,21 @@ public class OAuth2Configuration extends AuthorizationServerConfigurerAdapter {
         public void configure(HttpSecurity http) throws Exception {
             // @formatter:off
             http
-//                    .authorizeRequests()
-//                    .antMatchers("/mcqresults/*")
-//                    .hasAuthority(UserRole.EXAMINER.toString())
-//                    .and()
+                    .authorizeRequests()
+                    .antMatchers("/questions/*")
+                    .hasAnyAuthority(UserRole.EXAMINER.toString(), UserRole.STUDENT.toString())
+                    .and()
                     .authorizeRequests()
                     .antMatchers("/exam/*")
-                    .hasAuthority(UserRole.EXAMINER.toString());
+                    .hasAnyAuthority(UserRole.EXAMINER.toString(), UserRole.STUDENT.toString())
+                    .and()
+                    .authorizeRequests()
+                    .antMatchers("/users/*")
+                    .hasAnyAuthority(UserRole.EXAMINER.toString(), UserRole.STUDENT.toString())
+                    .and()
+                    .authorizeRequests()
+                    .antMatchers("/mcqtests/*")
+                    .hasAnyAuthority(UserRole.EXAMINER.toString(), UserRole.STUDENT.toString());
             // @formatter:on
         }
 

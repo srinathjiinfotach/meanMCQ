@@ -42,6 +42,9 @@ class ExamRestController {
 
         User user = getUser();
 
+        if (!mcqTest.getUsers().contains(user))
+            return new ResponseEntity<>(null, httpHeaders, HttpStatus.NOT_FOUND);
+
         Question question = questionRepository.findOne(questionId);
 
         // check if this answer has already been submitted
