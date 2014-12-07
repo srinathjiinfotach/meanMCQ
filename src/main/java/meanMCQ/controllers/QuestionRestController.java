@@ -2,6 +2,7 @@ package meanMCQ.controllers;
 
 import meanMCQ.domain.Choice;
 import meanMCQ.domain.Question;
+import meanMCQ.service.ChoiceRepository;
 import meanMCQ.service.QuestionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -10,7 +11,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import java.util.ArrayList;
 import java.util.Collection;
 
 /**
@@ -20,6 +20,7 @@ import java.util.Collection;
 @RequestMapping("/questions")
 class QuestionRestController {
     private final QuestionRepository questionRepository;
+    private final ChoiceRepository choiceRepository;
 
     // create a question
     @RequestMapping(method = RequestMethod.POST)
@@ -53,17 +54,14 @@ class QuestionRestController {
     // get answers of a specific question
     @RequestMapping(method = RequestMethod.GET, value = "/{id}/answers")
     Collection<Choice> getAnswers(@PathVariable Long id) {
-        Collection<Choice> choices = new ArrayList<>();
-        questionRepository.findOne(id).getChoices().forEach(c -> {
-            if (c.isAnswer())
-                choices.add(c);
-        });
-
+        Question question = getQuestion(id);
+        Collection<Choice> choices = choiceRepository.findByQuestionAndAnswer(question, true);
         return choices;
     }
 
     @Autowired
-    public QuestionRestController(QuestionRepository questionRepository) {
+    public QuestionRestController(QuestionRepository questionRepository, ChoiceRepository choiceRepository) {
         this.questionRepository = questionRepository;
+        this.choiceRepository = choiceRepository;
     }
 }

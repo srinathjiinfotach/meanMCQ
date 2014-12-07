@@ -57,7 +57,6 @@ public class OAuth2Configuration extends AuthorizationServerConfigurerAdapter {
 
     // This is required for password grants, which we specify below as one of the
     // {@literal authorizedGrantTypes()}.
-    @SuppressWarnings("SpringJavaAutowiringInspection")
     @Autowired
     AuthenticationManagerBuilder authenticationManager;
 
@@ -83,7 +82,6 @@ public class OAuth2Configuration extends AuthorizationServerConfigurerAdapter {
                 .authorities(UserRole.EXAMINER.toString(), UserRole.STUDENT.toString())
                 .scopes("read", "write")
                 .resourceIds(applicationName)
-                .redirectUris("https://www.getpostman.com/oauth2/callback")
                 .secret("123456");
     }
 }

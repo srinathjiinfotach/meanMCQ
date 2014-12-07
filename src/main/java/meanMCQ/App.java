@@ -21,7 +21,9 @@ import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.*;
+import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Created by red on 11/28/14.
@@ -83,13 +85,13 @@ public class App {
                 userRepository.save(new User("Student" + i, "pass", UserRole.STUDENT));
                 Question q = new Question("This is question " + i + "?");
 
-                List<Choice> choiceList = new ArrayList<>();
+                Set<Choice> choiceList = new HashSet<>();
                 choiceList.add(new Choice("Choice 1", false));
                 choiceList.add(new Choice("Choice 2", false));
                 choiceList.add(new Choice("Choice 3", true));
                 choiceList.add(new Choice("Choice 4", false));
                 Set<Choice> choices = new HashSet<>(choiceList);
-                q.choices.addAll(choiceList);
+                q.setChoices(choices);
                 choices.forEach(c -> c.setQuestion(q));
                 questionRepository.save(q);
                 questions.add(q);

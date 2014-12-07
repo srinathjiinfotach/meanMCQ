@@ -15,6 +15,7 @@ import java.util.Collection;
  * Created by red on 12/6/14.
  */
 @RestController
+@RequestMapping(value = "/users")
 class UserRestController {
     private final UserRepository userRepository;
 

@@ -2,6 +2,7 @@ package meanMCQ.service;
 
 import meanMCQ.domain.Answer;
 import meanMCQ.domain.McqTest;
+import meanMCQ.domain.Question;
 import meanMCQ.domain.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
@@ -13,5 +14,7 @@ import java.util.List;
  */
 @RepositoryRestResource(exported = false, collectionResourceRel = "answer", path = "answers")
 public interface AnswerRepository extends JpaRepository<Answer, Long> {
-    List<Answer> findByUserAndMcqTest(User user, McqTest mcqTest);
+    List<Answer> findByMcqTestAndUser(McqTest mcqTest, User user);
+
+    List<Answer> findByQuestionAndUser(Question question, User user);
 }

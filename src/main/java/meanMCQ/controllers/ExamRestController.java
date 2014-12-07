@@ -25,6 +25,7 @@ class ExamRestController {
     private final UserRepository userRepository;
     private final AnswerRepository answerRepository;
     private final McqResultRepository mcqResultRepository;
+    private final ChoiceRepository choiceRepository;
 
     // submit answer
     @RequestMapping(value = "/mcqtest/{mcqTestId}/question/{questionId}/answers", method = RequestMethod.POST)
@@ -32,23 +33,30 @@ class ExamRestController {
                                    @RequestBody AnswerDto answerDto) {
 
         HttpHeaders httpHeaders = new HttpHeaders();
+
+        // check if test is still valid
         McqTest mcqTest = mcqTestRepository.findOne(mcqTestId);
 
         if (!mcqTest.isValid())
             return new ResponseEntity<>(null, httpHeaders, HttpStatus.NOT_FOUND);
 
+        User user = getUser();
+
         Question question = questionRepository.findOne(questionId);
 
-        Set<Choice> choices = new HashSet<>();
-        answerDto.choiceIds.forEach(c ->
-                        question.choices.forEach(c1 -> {
-                            if (c == c1.getId())
-                                choices.add(c1);
-                        })
-        );
-        User student = getUser();
+        // check if this answer has already been submitted
+        List<Answer> a = answerRepository.findByQuestionAndUser(question, user);
+        if (!a.isEmpty())
+            return new ResponseEntity<>(null, httpHeaders, HttpStatus.CONFLICT);
 
-        Answer answer = answerRepository.save(new Answer(choices, question, mcqTest, student));
+        Set<Choice> choices = new HashSet<>();
+        for (Long choiceId : answerDto.choiceIds) {
+            Choice c = choiceRepository.findOne(choiceId);
+            if (c.getQuestion().getId() == question.getId())
+                choices.add(c);
+        }
+
+        Answer answer = answerRepository.save(new Answer(choices, question, mcqTest, user));
 
 
         httpHeaders.setLocation(ServletUriComponentsBuilder
@@ -58,14 +66,22 @@ class ExamRestController {
         return new ResponseEntity<>(null, httpHeaders, HttpStatus.ACCEPTED);
     }
 
-    // get result : /exam/test/{mcqTestId}/result
-    // if result has not been generated yet, generate result and then show
+    // get result
     @RequestMapping(value = "/mcqtest/{mcqTestId}/result", method = RequestMethod.GET)
     McqResult getResult(@PathVariable Long mcqTestId) {
-        return mcqResultRepository.findByMcqTestAndUser(mcqTestRepository.findOne(mcqTestId), getUser()).get(0);
+        McqTest mcqTest = mcqTestRepository.findOne(mcqTestId);
+        User user = getUser();
+        List<McqResult> mcqResult = mcqResultRepository.findByMcqTestAndUser(mcqTest, user);
+
+        // generate result if it has not been generated
+        if (mcqResult.size() == 0)
+            return GenerateResult(mcqTest, user);
+
+        return mcqResult.get(0);
     }
 
     // get results of a specific test
+    @RequestMapping(value = "/mcqtest/{mcqTestId}/results")
     Collection<McqResult> getResults(@PathVariable Long mcqTestId) {
         return mcqResultRepository.findByMcqTest(mcqTestRepository.findOne(mcqTestId));
     }
@@ -79,12 +95,49 @@ class ExamRestController {
         return student.get(0);
     }
 
+    // generate result
+    private McqResult GenerateResult(McqTest mcqTest, User user) {
+        // the total marks obtained by the student
+        double marks = 0;
+
+        // mark percentage per question
+        int num_questions = mcqTest.getQuestions().size();
+        double q_mark = (100 / num_questions);
+        // mark percentage per choice for questions with multiple answers
+        double c_mark = 0;
+
+        // get all the answers
+        Collection<Answer> answers = answerRepository.findByMcqTestAndUser(mcqTest, user);
+
+        for (Answer answer : answers) {
+            // get mark_per_choice for the question
+            int num_answer_choice = 0;
+            Question q = questionRepository.findOne(answer.getQuestion().getId());
+            for (Choice choice : q.getChoices()) {
+                if (choice.isAnswer())
+                    num_answer_choice++;
+            }
+            c_mark = q_mark / num_answer_choice;
+
+            // calculate mark
+            for (Choice choice : answer.getChoices()) {
+                if (choice.isAnswer())
+                    marks += c_mark;
+            }
+        }
+
+        // create and return the result
+        McqResult mcqResult = mcqResultRepository.save(new McqResult(marks, user, mcqTest));
+        return mcqResult;
+    }
+
     @Autowired
-    public ExamRestController(QuestionRepository questionRepository, McqTestRepository mcqTestRepository, UserRepository userRepository, AnswerRepository answerRepository, McqResultRepository mcqResultRepository) {
+    public ExamRestController(QuestionRepository questionRepository, McqTestRepository mcqTestRepository, UserRepository userRepository, AnswerRepository answerRepository, McqResultRepository mcqResultRepository, ChoiceRepository choiceRepository) {
         this.questionRepository = questionRepository;
         this.mcqTestRepository = mcqTestRepository;
         this.userRepository = userRepository;
         this.answerRepository = answerRepository;
         this.mcqResultRepository = mcqResultRepository;
+        this.choiceRepository = choiceRepository;
     }
 }
