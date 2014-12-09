@@ -2,6 +2,7 @@ package meanMCQ.controllers;
 
 import meanMCQ.domain.*;
 import meanMCQ.dto.AnswerDto;
+import meanMCQ.dto.QuestionAnswerDto;
 import meanMCQ.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -27,8 +28,8 @@ class ExamRestController {
     private final McqResultRepository mcqResultRepository;
     private final ChoiceRepository choiceRepository;
 
-    // submit answer
-    @RequestMapping(value = "/mcqtest/{mcqTestId}/question/{questionId}/answers", method = RequestMethod.POST)
+    // submit answer { examiner and student }
+    @RequestMapping(value = "/mcqtests/{mcqTestId}/question/{questionId}/answers", method = RequestMethod.POST)
     ResponseEntity<?> submitAnswer(@PathVariable Long mcqTestId, @PathVariable Long questionId,
                                    @RequestBody AnswerDto answerDto) {
 
@@ -69,8 +70,40 @@ class ExamRestController {
         return new ResponseEntity<>(null, httpHeaders, HttpStatus.ACCEPTED);
     }
 
-    // get result
-    @RequestMapping(value = "/mcqtest/{mcqTestId}/result", method = RequestMethod.GET)
+    // get a specific test { examiner and student }
+    @RequestMapping(value = "/mcqtests/{id}")
+    McqTest getTest(@PathVariable Long id) {
+        return mcqTestRepository.findOne(id);
+    }
+
+    // get all the answers of a specific test  { examiner and student }
+    @RequestMapping(value = "/mcqtests/{id}/answers", method = RequestMethod.GET)
+    Collection<QuestionAnswerDto> getAnswers(@PathVariable Long id) {
+        McqTest mcqTest = mcqTestRepository.findOne(id);
+        User currentUser = getUser();
+
+        // check if examiner or student
+        // if student then check if he has already taken the test
+        if (currentUser.getRole() == UserRole.STUDENT) {
+            if (mcqResultRepository.findByMcqTestAndUser(mcqTest, currentUser).isEmpty())
+                return null;
+        }
+
+        Collection<QuestionAnswerDto> qaDtos = new ArrayList<>();
+        for (Question question : mcqTest.getQuestions()) {
+            Set<Choice> choices = new HashSet<>();
+            for (Choice choice : question.getChoices()) {
+                if (choice.isAnswer())
+                    choices.add(choice);
+            }
+            question.setChoices(choices);
+            qaDtos.add(new QuestionAnswerDto(question));
+        }
+        return qaDtos;
+    }
+
+    // get result { examiner and student }
+    @RequestMapping(value = "/mcqtests/{mcqTestId}/result", method = RequestMethod.GET)
     McqResult getResult(@PathVariable Long mcqTestId) {
         McqTest mcqTest = mcqTestRepository.findOne(mcqTestId);
         User user = getUser();
@@ -83,19 +116,10 @@ class ExamRestController {
         return mcqResult.get(0);
     }
 
-    // get results of a specific test
-    @RequestMapping(value = "/mcqtest/{mcqTestId}/results")
+    // get results of a specific test { examiner }
+    @RequestMapping(value = "/mcqtests/{mcqTestId}/results", method = RequestMethod.GET)
     Collection<McqResult> getResults(@PathVariable Long mcqTestId) {
         return mcqResultRepository.findByMcqTest(mcqTestRepository.findOne(mcqTestId));
-    }
-
-    // get authenticated user
-    private User getUser() {
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        String username = auth.getName();
-        List<User> student = new ArrayList<>();
-        userRepository.findByUsername(username).map(s -> student.add(s));
-        return student.get(0);
     }
 
     // generate result
@@ -132,6 +156,15 @@ class ExamRestController {
         // create and return the result
         McqResult mcqResult = mcqResultRepository.save(new McqResult(marks, user, mcqTest));
         return mcqResult;
+    }
+
+    // get authenticated user
+    private User getUser() {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String username = auth.getName();
+        List<User> users = new ArrayList<>();
+        userRepository.findByUsername(username).map(s -> users.add(s));
+        return users.get(0);
     }
 
     @Autowired

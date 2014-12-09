@@ -3,20 +3,18 @@ package meanMCQ.controllers;
 import meanMCQ.domain.McqTest;
 import meanMCQ.domain.Question;
 import meanMCQ.domain.User;
-import meanMCQ.service.ChoiceRepository;
-import meanMCQ.service.McqTestRepository;
-import meanMCQ.service.QuestionRepository;
-import meanMCQ.service.UserRepository;
+import meanMCQ.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
+
 /**
  * Created by red on 12/3/14.
  */
@@ -26,21 +24,15 @@ class McqTestRestController {
     private final McqTestRepository mcqTestRepository;
     private final UserRepository userRepository;
     private final QuestionRepository questionRepository;
-    private final ChoiceRepository choiceRepository;
+    private final McqResultRepository mcqResultRepository;
 
-    // get all tests
+    // get all tests  { examiner }
     @RequestMapping(method = RequestMethod.GET)
     Collection<McqTest> getTests() {
         return mcqTestRepository.findAll();
     }
 
-    // get a specific test
-    @RequestMapping(method = RequestMethod.GET, value = "/{id}")
-    McqTest getTest(@PathVariable Long id) {
-        return mcqTestRepository.findOne(id);
-    }
-
-    // create a test
+    // create a test { examiner }
     @RequestMapping(method = RequestMethod.POST)
     ResponseEntity<?> create(@RequestBody McqTest mcqTest) {
         Set<Question> questionSet = new HashSet<>();
@@ -57,13 +49,7 @@ class McqTestRestController {
         return new ResponseEntity<>(null, httpHeaders, HttpStatus.CREATED);
     }
 
-    // get all questions in the test
-    @RequestMapping(value = "/{id}/questions", method = RequestMethod.GET)
-    Collection<Question> getQuestions(@PathVariable Long id) {
-        return mcqTestRepository.findOne(id).getQuestions();
-    }
-
-    // add questions to the test
+    // add questions to the test { examiner }
     @RequestMapping(value = "/{id}/questions", method = RequestMethod.POST)
     ResponseEntity<?> addQuestions(@PathVariable Long id, @RequestBody Collection<Question> questions) {
         HttpHeaders httpHeaders = new HttpHeaders();
@@ -82,45 +68,48 @@ class McqTestRestController {
         return new ResponseEntity<>(null, httpHeaders, HttpStatus.ACCEPTED);
     }
 
-    // get all the answers of this test
-//    @RequestMapping(value = "/{id}/answers", method = RequestMethod.GET)
-//    Collection<Choice> getAnswers(@PathVariable Long id){
-//        Collection<Choice> choices = new ArrayList<>();
-//        mcqTestRepository.findOne(id).getQuestions().forEach(
-//                q -> {
-//                    choices.add(choiceRepository.findByQuestionAndAnswer(q,true).get(0));
-//                }
-//        );
-//        return choices;
-//    }
-
-    // get all users enrolled
+    // get all users enrolled { examiner }
     @RequestMapping(value = "/{id}/users", method = RequestMethod.GET)
     Collection<User> getStudents(@PathVariable Long id) {
         return mcqTestRepository.findOne(id).users;
     }
 
-    // enroll users to the test
+    // enroll users to a specific test { examiner }
     @RequestMapping(value = "/{id}/users", method = RequestMethod.POST)
-    ResponseEntity<?> addStudent(@PathVariable Long id, @RequestBody User student) {
+    ResponseEntity<?> addStudent(@PathVariable Long id, @RequestBody Collection<User> users) {
         HttpHeaders httpHeaders = new HttpHeaders();
 
         McqTest mcqTest = mcqTestRepository.findOne(id);
         if (mcqTest == null)
             return new ResponseEntity<>(null, httpHeaders, HttpStatus.NOT_FOUND);
-
-        userRepository.findByUsername(student.getUsername()).map(s -> mcqTest.users.add(s));
-        mcqTestRepository.save(mcqTest);
-
+        for (User user : users) {
+            userRepository.findByUsername(user.getUsername()).map(s -> mcqTest.users.add(s));
+            mcqTestRepository.save(mcqTest);
+        }
         return new ResponseEntity<>(null, httpHeaders, HttpStatus.ACCEPTED);
     }
 
+    // get a specific test { examiner }
+    @RequestMapping(method = RequestMethod.GET, value = "/{id}")
+    McqTest getTest(@PathVariable Long id) {
+        return mcqTestRepository.findOne(id);
+    }
+
+    // get authenticated user
+    private User getUser() {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String username = auth.getName();
+        List<User> users = new ArrayList<>();
+        userRepository.findByUsername(username).map(s -> users.add(s));
+        return users.get(0);
+    }
+
     @Autowired
-    McqTestRestController(McqTestRepository mcqTestRepository, UserRepository userRepository, QuestionRepository questionRepository, ChoiceRepository choiceRepository) {
+    McqTestRestController(McqTestRepository mcqTestRepository, UserRepository userRepository, QuestionRepository questionRepository, ChoiceRepository choiceRepository, McqResultRepository mcqResultRepository) {
         this.mcqTestRepository = mcqTestRepository;
         this.userRepository = userRepository;
         this.questionRepository = questionRepository;
-        this.choiceRepository = choiceRepository;
+        this.mcqResultRepository = mcqResultRepository;
     }
 
 }

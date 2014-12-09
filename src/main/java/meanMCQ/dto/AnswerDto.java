@@ -7,4 +7,8 @@ import java.util.Set;
  */
 public class AnswerDto {
     public Set<Long> choiceIds;
+
+    public AnswerDto(Set<Long> choiceIds) {
+        this.choiceIds = choiceIds;
+    }
 }

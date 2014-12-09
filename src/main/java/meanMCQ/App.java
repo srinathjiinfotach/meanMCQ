@@ -1,11 +1,6 @@
 package meanMCQ;
 
-import meanMCQ.domain.*;
-import meanMCQ.service.McqTestRepository;
-import meanMCQ.service.QuestionRepository;
-import meanMCQ.service.UserRepository;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.context.embedded.FilterRegistrationBean;
@@ -21,9 +16,6 @@ import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
 
 /**
  * Created by red on 11/28/14.
@@ -72,35 +64,35 @@ public class App {
         });
     }
 
-    @Bean
-    CommandLineRunner init(QuestionRepository questionRepository, UserRepository userRepository,
-                           McqTestRepository mcqTestRepository) {
-
-        return (evt) -> {
-            userRepository.save(new User("Teacher", "pass", UserRole.EXAMINER));
-
-            Set<Question> questions = new HashSet<>();
-
-            for (int i = 1; i <= 10; i++) {
-                userRepository.save(new User("Student" + i, "pass", UserRole.STUDENT));
-                Question q = new Question("This is question " + i + "?");
-
-                Set<Choice> choiceList = new HashSet<>();
-                choiceList.add(new Choice("Choice 1", false));
-                choiceList.add(new Choice("Choice 2", false));
-                choiceList.add(new Choice("Choice 3", true));
-                choiceList.add(new Choice("Choice 4", false));
-                Set<Choice> choices = new HashSet<>(choiceList);
-                q.setChoices(choices);
-                choices.forEach(c -> c.setQuestion(q));
-                questionRepository.save(q);
-                questions.add(q);
-            }
-
-            McqTest mcqTest = new McqTest(new Date(), 30);
-            mcqTest.setQuestions(questions);
-            mcqTestRepository.save(mcqTest);
-
-        };
-    }
+//    @Bean
+//    CommandLineRunner init(QuestionRepository questionRepository, UserRepository userRepository,
+//                           McqTestRepository mcqTestRepository) {
+//
+//        return (evt) -> {
+//            userRepository.save(new User("Teacher", "pass", UserRole.EXAMINER));
+//
+//            Set<Question> questions = new HashSet<>();
+//
+//            for (int i = 1; i <= 10; i++) {
+//                userRepository.save(new User("Student" + i, "pass", UserRole.STUDENT));
+//                Question q = new Question("This is question " + i + "?");
+//
+//                Set<Choice> choiceList = new HashSet<>();
+//                choiceList.add(new Choice("Choice 1", false));
+//                choiceList.add(new Choice("Choice 2", false));
+//                choiceList.add(new Choice("Choice 3", true));
+//                choiceList.add(new Choice("Choice 4", false));
+//                Set<Choice> choices = new HashSet<>(choiceList);
+//                q.setChoices(choices);
+//                choices.forEach(c -> c.setQuestion(q));
+//                questionRepository.save(q);
+//                questions.add(q);
+//            }
+//
+//            McqTest mcqTest = new McqTest(new Date(), 30);
+//            mcqTest.setQuestions(questions);
+//            mcqTestRepository.save(mcqTest);
+//
+//        };
+//    }
 }
