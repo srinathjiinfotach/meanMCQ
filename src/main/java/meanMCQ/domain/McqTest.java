@@ -17,6 +17,7 @@ public class McqTest {
     @GeneratedValue
     private Long id;
 
+    public String title;
     @Temporal(TemporalType.TIMESTAMP)
     public Date schedule;
     public int duration; // in minutes
@@ -33,7 +34,9 @@ public class McqTest {
     public McqTest() {
     }
 
-    public McqTest(Date schedule, int duration) {
+    //@JsonCreator
+    public McqTest(String title, Date schedule, int duration) {
+        this.title = title;
         this.schedule = schedule;
         this.duration = duration;
     }
@@ -68,9 +71,9 @@ public class McqTest {
 
     // check test validity
     public boolean isValid() {
-        final long ONE_MINUTE_IN_MILLIS = 60000;//millisecs
+        final long ONE_MINUTE = 60000; // in millisecs
         long t = this.schedule.getTime();
-        Date schedule_ends = new Date(t + (this.duration * ONE_MINUTE_IN_MILLIS));
+        Date schedule_ends = new Date(t + (this.duration * ONE_MINUTE));
         Date current_time = new Date();
 
         if (schedule_ends.before(current_time))

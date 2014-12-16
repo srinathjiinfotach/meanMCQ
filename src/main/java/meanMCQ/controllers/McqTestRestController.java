@@ -3,7 +3,9 @@ package meanMCQ.controllers;
 import meanMCQ.domain.McqTest;
 import meanMCQ.domain.Question;
 import meanMCQ.domain.User;
-import meanMCQ.service.*;
+import meanMCQ.service.McqTestRepository;
+import meanMCQ.service.QuestionRepository;
+import meanMCQ.service.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -24,7 +26,6 @@ class McqTestRestController {
     private final McqTestRepository mcqTestRepository;
     private final UserRepository userRepository;
     private final QuestionRepository questionRepository;
-    private final McqResultRepository mcqResultRepository;
 
     // get all tests  { examiner }
     @RequestMapping(method = RequestMethod.GET)
@@ -37,7 +38,7 @@ class McqTestRestController {
     ResponseEntity<?> create(@RequestBody McqTest mcqTest) {
         Set<Question> questionSet = new HashSet<>();
         mcqTest.questions.forEach(q -> questionSet.add(questionRepository.findOne(q.getId())));
-        McqTest test = new McqTest(mcqTest.schedule, mcqTest.duration);
+        McqTest test = new McqTest(mcqTest.title, mcqTest.schedule, mcqTest.duration);
         test.setQuestions(questionSet);
         mcqTestRepository.save(test);
 
@@ -105,11 +106,10 @@ class McqTestRestController {
     }
 
     @Autowired
-    McqTestRestController(McqTestRepository mcqTestRepository, UserRepository userRepository, QuestionRepository questionRepository, ChoiceRepository choiceRepository, McqResultRepository mcqResultRepository) {
+    McqTestRestController(McqTestRepository mcqTestRepository, UserRepository userRepository, QuestionRepository questionRepository) {
         this.mcqTestRepository = mcqTestRepository;
         this.userRepository = userRepository;
         this.questionRepository = questionRepository;
-        this.mcqResultRepository = mcqResultRepository;
     }
 
 }

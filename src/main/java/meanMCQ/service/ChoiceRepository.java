@@ -10,7 +10,7 @@ import java.util.List;
 /**
  * Created by red on 12/7/14.
  */
-@RepositoryRestResource(exported = false, collectionResourceRel = "choice", path = "choices")
+@RepositoryRestResource(exported = false, collectionResourceRel = "choices", path = "choices")
 public interface ChoiceRepository extends JpaRepository<Choice, Long> {
     List<Choice> findByQuestionAndAnswer(Question question, boolean answer);
 }

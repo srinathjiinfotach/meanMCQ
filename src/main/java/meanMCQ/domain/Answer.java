@@ -36,6 +36,7 @@ public class Answer {
     public Answer() {
     }
 
+    //@JsonCreator
     public Answer(Set<Choice> choices, Question question, McqTest mcqTest, User user) {
         this.choices = choices;
         this.question = question;

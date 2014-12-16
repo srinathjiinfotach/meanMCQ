@@ -29,6 +29,7 @@ public class McqResult {
     public McqResult() {
     }
 
+    //@JsonCreator
     public McqResult(double marks, User user, McqTest mcqTest) {
         this.marks = marks;
         this.user = user;

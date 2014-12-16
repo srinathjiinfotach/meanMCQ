@@ -121,7 +121,7 @@ public class meanMcqTest {
     @Test
     public void createTest() throws Exception {
         questions = new HashSet<>(questionRepository.findAll());
-        mcqTest = new McqTest(Date.from(Instant.now()), 30);
+        mcqTest = new McqTest("UnitTest McqTest", Date.from(Instant.now()), 30);
         mcqTest.setQuestions(questions);
         String mcqTestJson = json(mcqTest);
         this.mockMvc.perform(post("/mcqtests/")

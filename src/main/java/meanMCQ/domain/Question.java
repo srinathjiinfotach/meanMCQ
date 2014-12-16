@@ -25,6 +25,7 @@ public class Question {
     public Question() {
     }
 
+    //@JsonCreator
     public Question(String content) {
         this.content = content;
     }
