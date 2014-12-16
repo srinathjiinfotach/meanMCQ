@@ -7,6 +7,8 @@
 log/
 target/
 
+logs/
+
 .project
 .classpath
 .settings/
