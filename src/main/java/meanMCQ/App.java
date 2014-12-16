@@ -74,30 +74,34 @@ public class App {
     CommandLineRunner init(QuestionRepository questionRepository, UserRepository userRepository,
                            McqTestRepository mcqTestRepository) {
 
+
         return (evt) -> {
-            userRepository.save(new User("Teacher", "pass", UserRole.EXAMINER));
+            Collection<Question> existing_questions = questionRepository.findAll();
+            if (existing_questions.isEmpty()) {
+                userRepository.save(new User("Teacher", "pass", UserRole.EXAMINER));
 
-            Set<Question> questions = new HashSet<>();
+                Set<Question> questions = new HashSet<>();
 
-            for (int i = 1; i <= 10; i++) {
-                userRepository.save(new User("Student" + i, "pass", UserRole.STUDENT));
-                Question q = new Question("This is question " + i + "?");
+                for (int i = 1; i <= 10; i++) {
+                    userRepository.save(new User("Student" + i, "pass", UserRole.STUDENT));
+                    Question q = new Question("This is question " + i + "?");
 
-                List<Choice> choiceList = new ArrayList<>();
-                choiceList.add(new Choice("Choice 1", false));
-                choiceList.add(new Choice("Choice 2", false));
-                choiceList.add(new Choice("Choice 3", true));
-                choiceList.add(new Choice("Choice 4", false));
-                Set<Choice> choices = new HashSet<>(choiceList);
-                q.setChoices(choices);
-                choices.forEach(c -> c.setQuestion(q));
-                questionRepository.save(q);
-                questions.add(q);
+                    List<Choice> choiceList = new ArrayList<>();
+                    choiceList.add(new Choice("Choice 1", false));
+                    choiceList.add(new Choice("Choice 2", false));
+                    choiceList.add(new Choice("Choice 3", true));
+                    choiceList.add(new Choice("Choice 4", false));
+                    Set<Choice> choices = new HashSet<>(choiceList);
+                    q.setChoices(choices);
+                    choices.forEach(c -> c.setQuestion(q));
+                    questionRepository.save(q);
+                    questions.add(q);
+                }
+
+                McqTest mcqTest = new McqTest("Test 1", new Date(), 30);
+                mcqTest.setQuestions(questions);
+                mcqTestRepository.save(mcqTest);
             }
-
-            McqTest mcqTest = new McqTest("Test 1", new Date(), 30);
-            mcqTest.setQuestions(questions);
-            mcqTestRepository.save(mcqTest);
 
         };
     }
