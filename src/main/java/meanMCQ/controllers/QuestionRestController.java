@@ -28,7 +28,7 @@ class QuestionRestController {
         HttpHeaders httpHeaders = new HttpHeaders();
 
         Question q = new Question(question.content);
-        q.setChoices(question.choices);
+        question.getChoices().forEach(c-> q.choices.add(c));
         q.choices.forEach(c -> c.setQuestion(q));
         questionRepository.save(q);
 
@@ -37,6 +37,13 @@ class QuestionRestController {
                 .buildAndExpand(q.getId()).toUri());
 
         return new ResponseEntity<>(null, httpHeaders, HttpStatus.CREATED);
+    }
+
+    // delete a question
+    @RequestMapping(value ="/{id}", method = RequestMethod.DELETE)
+    ResponseEntity<?> delete(@PathVariable Long id){
+        HttpHeaders httpHeaders = new HttpHeaders();
+        return new ResponseEntity<>(null, httpHeaders, HttpStatus.OK);
     }
 
     // get all questions
