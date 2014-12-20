@@ -15,7 +15,9 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 /**
  * Created by red on 12/3/14.
@@ -36,7 +38,7 @@ class McqTestRestController {
     // create a test { examiner }
     @RequestMapping(method = RequestMethod.POST)
     ResponseEntity<?> create(@RequestBody McqTest mcqTest) {
-        Set<Question> questionSet = new HashSet<>();
+        Collection<Question> questionSet = new ArrayList<>();
         mcqTest.questions.forEach(q -> questionSet.add(questionRepository.findOne(q.getId())));
         McqTest test = new McqTest(mcqTest.title, mcqTest.schedule, mcqTest.duration);
         test.setQuestions(questionSet);

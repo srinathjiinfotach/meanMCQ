@@ -5,7 +5,7 @@ import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
 
 import javax.persistence.*;
-import java.util.Set;
+import java.util.Collection;
 
 /**
  * Created by red on 11/22/14.
@@ -18,7 +18,7 @@ public class Answer {
 
     @ManyToMany(fetch = FetchType.LAZY)
     @Cascade(CascadeType.REFRESH)
-    private Set<Choice> choices;
+    private Collection<Choice> choices;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @Cascade(CascadeType.REFRESH)
@@ -37,7 +37,7 @@ public class Answer {
     }
 
     //@JsonCreator
-    public Answer(Set<Choice> choices, Question question, McqTest mcqTest, User user) {
+    public Answer(Collection<Choice> choices, Question question, McqTest mcqTest, User user) {
         this.choices = choices;
         this.question = question;
         this.mcqTest = mcqTest;
@@ -48,7 +48,7 @@ public class Answer {
         return id;
     }
 
-    public Set<Choice> getChoices() {
+    public Collection<Choice> getChoices() {
         return choices;
     }
 
@@ -63,6 +63,5 @@ public class Answer {
     public User getUser() {
         return user;
     }
-
 
 }

@@ -5,8 +5,8 @@ import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
 
 import javax.persistence.*;
+import java.util.Collection;
 import java.util.Date;
-import java.util.Set;
 
 /**
  * Created by red on 11/15/14.
@@ -24,12 +24,12 @@ public class McqTest {
 
     @ManyToMany(fetch = FetchType.LAZY)
     @Cascade(CascadeType.REFRESH)
-    public Set<Question> questions;
+    public Collection<Question> questions;
 
     @JsonIgnore
     @ManyToMany(fetch = FetchType.LAZY)
     @Cascade(CascadeType.REFRESH)
-    public Set<User> users;
+    public Collection<User> users;
 
     public McqTest() {
     }
@@ -53,19 +53,19 @@ public class McqTest {
         return schedule;
     }
 
-    public Set<User> getUsers() {
+    public Collection<User> getUsers() {
         return users;
     }
 
-    public Set<Question> getQuestions() {
+    public Collection<Question> getQuestions() {
         return questions;
     }
 
-    public void setQuestions(Set<Question> questions) {
+    public void setQuestions(Collection<Question> questions) {
         this.questions = questions;
     }
 
-    public void setUsers(Set<User> users) {
+    public void setUsers(Collection<User> users) {
         this.users = users;
     }
 

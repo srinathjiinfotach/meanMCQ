@@ -21,7 +21,9 @@ import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Date;
 
 /**
  * Created by red on 11/28/14.
@@ -39,7 +41,7 @@ public class App {
     // CORS
     @Bean
     FilterRegistrationBean corsFilter(
-            @Value("${tagit.origin:http://localhost:9000}") String origin) {
+            @Value("${tagit.origin:http://mcq.redmoses.me}") String origin) {
         return new FilterRegistrationBean(new Filter() {
             public void doFilter(ServletRequest req, ServletResponse res,
                                  FilterChain chain) throws IOException, ServletException {
@@ -80,18 +82,17 @@ public class App {
             if (existing_questions.isEmpty()) {
                 userRepository.save(new User("Teacher", "pass", UserRole.EXAMINER));
 
-                Set<Question> questions = new HashSet<>();
+                Collection<Question> questions = new ArrayList<>();
 
                 for (int i = 1; i <= 10; i++) {
                     userRepository.save(new User("Student" + i, "pass", UserRole.STUDENT));
                     Question q = new Question("This is question " + i + "?");
 
-                    List<Choice> choiceList = new ArrayList<>();
-                    choiceList.add(new Choice("Choice 1", false));
-                    choiceList.add(new Choice("Choice 2", false));
-                    choiceList.add(new Choice("Choice 3", true));
-                    choiceList.add(new Choice("Choice 4", false));
-                    Set<Choice> choices = new HashSet<>(choiceList);
+                    Collection<Choice> choices = new ArrayList<>();
+                    choices.add(new Choice("Choice 1", false));
+                    choices.add(new Choice("Choice 2", false));
+                    choices.add(new Choice("Choice 3", true));
+                    choices.add(new Choice("Choice 4", false));
                     q.setChoices(choices);
                     choices.forEach(c -> c.setQuestion(q));
                     questionRepository.save(q);

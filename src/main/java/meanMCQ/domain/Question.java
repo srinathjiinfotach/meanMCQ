@@ -4,8 +4,7 @@ import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
 
 import javax.persistence.*;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.Collection;
 
 /**
  * Created by red on 11/15/14.
@@ -20,7 +19,7 @@ public class Question {
 
     @OneToMany(mappedBy = "question", fetch = FetchType.LAZY)
     @Cascade(CascadeType.ALL)
-    public Set<Choice> choices = new HashSet<>();
+    public Collection<Choice> choices;
 
     public Question() {
     }
@@ -34,11 +33,11 @@ public class Question {
         return content;
     }
 
-    public Set<Choice> getChoices() {
+    public Collection<Choice> getChoices() {
         return choices;
     }
 
-    public void setChoices(Set<Choice> choices) {
+    public void setChoices(Collection<Choice> choices) {
         this.choices = choices;
     }
 

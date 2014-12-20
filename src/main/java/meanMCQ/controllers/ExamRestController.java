@@ -13,7 +13,9 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 /**
  * Created by red on 12/6/14.
@@ -53,7 +55,7 @@ class ExamRestController {
         if (!a.isEmpty())
             return new ResponseEntity<>(null, httpHeaders, HttpStatus.CONFLICT);
 
-        Set<Choice> choices = new HashSet<>();
+        Collection<Choice> choices = new ArrayList<>();
         for (Long choiceId : answerDto.choiceIds) {
             Choice c = choiceRepository.findOne(choiceId);
             if (c.getQuestion().getId() == question.getId())
@@ -91,7 +93,7 @@ class ExamRestController {
 
         Collection<QuestionAnswerDto> qaDtos = new ArrayList<>();
         for (Question question : mcqTest.getQuestions()) {
-            Set<Choice> choices = new HashSet<>();
+            Collection<Choice> choices = new ArrayList<>();
             for (Choice choice : question.getChoices()) {
                 if (choice.isAnswer())
                     choices.add(choice);
