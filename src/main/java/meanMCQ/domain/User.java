@@ -25,7 +25,6 @@ public class User {
     @Enumerated(EnumType.STRING)
     public UserRole role;
 
-    //@JsonCreator
     public User(String username, String password, UserRole role) {
         this.username = username;
         this.password = password;

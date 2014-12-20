@@ -1,6 +1,5 @@
 package meanMCQ.domain;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
 
@@ -23,12 +22,11 @@ public class McqTest {
     public int duration; // in minutes
 
     @ManyToMany(fetch = FetchType.LAZY)
-    @Cascade(CascadeType.REFRESH)
+    @Cascade(CascadeType.ALL)
     public Collection<Question> questions;
 
-    @JsonIgnore
     @ManyToMany(fetch = FetchType.LAZY)
-    @Cascade(CascadeType.REFRESH)
+    @Cascade(CascadeType.ALL)
     public Collection<User> users;
 
     public McqTest() {

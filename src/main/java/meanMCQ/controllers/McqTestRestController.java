@@ -38,10 +38,13 @@ class McqTestRestController {
     // create a test { examiner }
     @RequestMapping(method = RequestMethod.POST)
     ResponseEntity<?> create(@RequestBody McqTest mcqTest) {
-        Collection<Question> questionSet = new ArrayList<>();
-        mcqTest.questions.forEach(q -> questionSet.add(questionRepository.findOne(q.getId())));
+        Collection<Question> questions = new ArrayList<>();
+        Collection<User> users = new ArrayList<>();
+        mcqTest.questions.forEach(q -> questions.add(questionRepository.findOne(q.getId())));
+        mcqTest.users.forEach(u -> users.add(userRepository.findOne(u.getId())));
         McqTest test = new McqTest(mcqTest.title, mcqTest.schedule, mcqTest.duration);
-        test.setQuestions(questionSet);
+        test.setQuestions(questions);
+        test.setUsers(users);
         mcqTestRepository.save(test);
 
         HttpHeaders httpHeaders = new HttpHeaders();
