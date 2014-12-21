@@ -31,7 +31,7 @@ class ExamRestController {
     private final ChoiceRepository choiceRepository;
 
     // submit answer { examiner and student }
-    @RequestMapping(value = "/mcqtests/{mcqTestId}/question/{questionId}/answers", method = RequestMethod.POST)
+    @RequestMapping(value = "/mcqtest/{mcqTestId}/question/{questionId}/answers", method = RequestMethod.POST)
     ResponseEntity<?> submitAnswer(@PathVariable Long mcqTestId, @PathVariable Long questionId,
                                    @RequestBody AnswerDto answerDto) {
 

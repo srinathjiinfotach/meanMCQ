@@ -22,11 +22,11 @@ public class McqTest {
     public int duration; // in minutes
 
     @ManyToMany(fetch = FetchType.LAZY)
-    @Cascade(CascadeType.ALL)
+    @Cascade(CascadeType.REFRESH)
     public Collection<Question> questions;
 
     @ManyToMany(fetch = FetchType.LAZY)
-    @Cascade(CascadeType.ALL)
+    @Cascade(CascadeType.REFRESH)
     public Collection<User> users;
 
     public McqTest() {
