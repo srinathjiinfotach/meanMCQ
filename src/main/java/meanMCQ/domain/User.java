@@ -3,6 +3,7 @@ package meanMCQ.domain;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
 /**
  * Created by Red on 11/15/14.
@@ -12,7 +13,9 @@ import javax.persistence.*;
 
 @Entity
 public class User {
+    @NotNull
     private String username;
+    @NotNull
     private String password;
 
     @Id

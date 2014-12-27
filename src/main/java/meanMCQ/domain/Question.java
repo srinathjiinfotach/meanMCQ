@@ -4,6 +4,7 @@ import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.Collection;
 
 /**
@@ -15,6 +16,7 @@ public class Question {
     @GeneratedValue
     private Long id;
 
+    @NotNull
     public String content;
 
     @OneToMany(mappedBy = "question", fetch = FetchType.LAZY)

@@ -3,6 +3,7 @@ package meanMCQ.domain;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.Collection;
 
 /**
@@ -15,16 +16,20 @@ public class Answer {
     private Long id;
 
     @ManyToMany(fetch = FetchType.LAZY)
+    @NotNull
     private Collection<Choice> choices;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @NotNull
     private Question question;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @NotNull
     private McqTest mcqTest;
 
     @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
+    @NotNull
     private User user;
 
     public Answer() {

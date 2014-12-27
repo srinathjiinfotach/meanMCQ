@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import meanMCQ.configurations.DateSerializer;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.Collection;
 import java.util.Date;
 /**
@@ -15,9 +16,12 @@ public class McqTest {
     @GeneratedValue
     private Long id;
 
+    @NotNull
     public String title;
     @JsonSerialize(using = DateSerializer.class)
+    @NotNull
     public Date schedule;
+    @NotNull
     public int duration; // in minutes
 
     @ManyToMany(fetch = FetchType.LAZY)

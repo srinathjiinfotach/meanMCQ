@@ -3,6 +3,7 @@ package meanMCQ.domain;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
 /**
  * Created by red on 11/15/14.
@@ -13,13 +14,16 @@ public class McqResult {
     @GeneratedValue
     private Long id;
 
+    @NotNull
     private double marks;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @NotNull
     private User user;
 
     @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
+    @NotNull
     private McqTest mcqTest;
 
     public McqResult() {

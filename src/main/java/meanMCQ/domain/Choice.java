@@ -6,6 +6,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.validation.constraints.NotNull;
 
 /**
  * Created by red on 11/15/14.
@@ -16,8 +17,10 @@ public class Choice {
     @GeneratedValue
     private Long id;
 
+    @NotNull
     private String content;
     @JsonIgnore
+    @NotNull
     private boolean answer;
 
     @JsonIgnore
