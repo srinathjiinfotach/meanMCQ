@@ -1,8 +1,6 @@
 package meanMCQ.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import org.hibernate.annotations.Cascade;
-import org.hibernate.annotations.CascadeType;
 
 import javax.persistence.*;
 import java.util.Collection;
@@ -17,20 +15,16 @@ public class Answer {
     private Long id;
 
     @ManyToMany(fetch = FetchType.LAZY)
-    @Cascade(CascadeType.REFRESH)
     private Collection<Choice> choices;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @Cascade(CascadeType.REFRESH)
     private Question question;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @Cascade(CascadeType.REFRESH)
     private McqTest mcqTest;
 
     @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
-    @Cascade(CascadeType.REFRESH)
     private User user;
 
     public Answer() {

@@ -1,4 +1,4 @@
-package meanMCQ.security;
+package meanMCQ.configurations;
 
 /**
  * Created by red on 12/1/14.

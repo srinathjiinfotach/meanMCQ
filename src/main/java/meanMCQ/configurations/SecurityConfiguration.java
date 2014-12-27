@@ -1,4 +1,4 @@
-package meanMCQ.security;
+package meanMCQ.configurations;
 
 import meanMCQ.service.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;

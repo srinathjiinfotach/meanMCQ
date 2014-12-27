@@ -1,7 +1,6 @@
 package meanMCQ.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.persistence.*;
 
@@ -13,9 +12,7 @@ import javax.persistence.*;
 
 @Entity
 public class User {
-    @NotEmpty
     private String username;
-    @NotEmpty
     private String password;
 
     @Id

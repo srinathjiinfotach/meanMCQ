@@ -1,4 +1,4 @@
-package meanMCQ.security;
+package meanMCQ.configurations;
 
 import meanMCQ.domain.UserRole;
 import org.springframework.beans.factory.annotation.Autowired;

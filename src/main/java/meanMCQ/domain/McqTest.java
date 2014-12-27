@@ -1,12 +1,11 @@
 package meanMCQ.domain;
 
-import org.hibernate.annotations.Cascade;
-import org.hibernate.annotations.CascadeType;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import meanMCQ.configurations.DateSerializer;
 
 import javax.persistence.*;
 import java.util.Collection;
 import java.util.Date;
-
 /**
  * Created by red on 11/15/14.
  */
@@ -17,16 +16,14 @@ public class McqTest {
     private Long id;
 
     public String title;
-    @Temporal(TemporalType.TIMESTAMP)
+    @JsonSerialize(using = DateSerializer.class)
     public Date schedule;
     public int duration; // in minutes
 
     @ManyToMany(fetch = FetchType.LAZY)
-    @Cascade(CascadeType.REFRESH)
     public Collection<Question> questions;
 
     @ManyToMany(fetch = FetchType.LAZY)
-    @Cascade(CascadeType.REFRESH)
     public Collection<User> users;
 
     public McqTest() {

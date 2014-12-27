@@ -1,8 +1,6 @@
 package meanMCQ.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import org.hibernate.annotations.Cascade;
-import org.hibernate.annotations.CascadeType;
 
 import javax.persistence.*;
 
@@ -18,12 +16,10 @@ public class McqResult {
     private double marks;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @Cascade(CascadeType.REFRESH)
     private User user;
 
     @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
-    @Cascade(CascadeType.REFRESH)
     private McqTest mcqTest;
 
     public McqResult() {
