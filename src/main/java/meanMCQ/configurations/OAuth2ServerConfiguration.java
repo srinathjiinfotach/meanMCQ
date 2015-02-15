@@ -42,15 +42,15 @@ public class OAuth2ServerConfiguration {
             // @formatter:off
             http
                     .authorizeRequests()
-                    .antMatchers("/questions*")
+                    .antMatchers("/questions**", "/questions/**")
                     .hasAnyAuthority(UserRole.EXAMINER.toString())
                     .and()
                     .authorizeRequests()
-                    .antMatchers("/mcqtests*")
+                    .antMatchers("/mcqtests**", "/mcqtests/**")
                     .hasAuthority(UserRole.EXAMINER.toString())
                     .and()
                     .authorizeRequests()
-                    .antMatchers("/exam/mcqtests/**")
+                    .antMatchers("/exam/mcqtests/**", "/exam/mcqtests**")
                     .hasAnyAuthority(UserRole.EXAMINER.toString(), UserRole.STUDENT.toString())
                     .and()
                     .authorizeRequests()
@@ -62,7 +62,7 @@ public class OAuth2ServerConfiguration {
                     .hasAnyAuthority(UserRole.EXAMINER.toString(), UserRole.STUDENT.toString())
                     .and()
                     .authorizeRequests()
-                    .antMatchers("/users*")
+                    .antMatchers("/users**", "/users/**")
                     .hasAuthority(UserRole.EXAMINER.toString());
             // @formatter:on
         }

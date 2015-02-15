@@ -9,7 +9,7 @@ import java.util.Optional;
 /**
  * Created by red on 11/29/14.
  */
-@RepositoryRestResource(exported = false, collectionResourceRel = "users", path = "users")
+@RepositoryRestResource(exported = true, collectionResourceRel = "users", path = "users")
 public interface UserRepository extends JpaRepository<User, Long> {
     Optional<User> findByUsername(String username);
 }

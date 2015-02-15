@@ -11,7 +11,7 @@ import java.util.List;
 /**
  * Created by red on 11/25/14.
  */
-@RepositoryRestResource(exported = false, collectionResourceRel = "mcqresults", path = "mcqresults")
+@RepositoryRestResource(exported = true, collectionResourceRel = "mcqresults", path = "mcqresults")
 public interface McqResultRepository extends JpaRepository<McqResult, Long> {
     List<McqResult> findByUser(User user);
     List<McqResult> findByMcqTestAndUser(McqTest mcqTest, User user);

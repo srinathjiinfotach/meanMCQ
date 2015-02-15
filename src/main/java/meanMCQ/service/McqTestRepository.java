@@ -9,7 +9,7 @@ import java.util.List;
 /**
  * Created by red on 11/25/14.
  */
-@RepositoryRestResource(exported = false, collectionResourceRel = "mcqtests", path = "mcqtests", itemResourceRel = "question")
+@RepositoryRestResource(exported = true, collectionResourceRel = "mcqtests", path = "mcqtests", itemResourceRel = "question")
 public interface McqTestRepository extends JpaRepository<McqTest, Long> {
     List<McqTest> findByTitle(String title);
 }
