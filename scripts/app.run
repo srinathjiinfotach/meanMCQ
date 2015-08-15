@@ -1,6 +1,6 @@
 #!/bin/bash
 export JAVA_HOME=/usr/lib/jvm/jdk1.8.0_05
 
-APP_SRC=/home/red/IdeaProjects/meanMCQ/
+APP_SRC=/home/red/workspace/meanMCQ/
 cd $APP_SRC
 exec -a meanmcq mvn spring-boot:run
